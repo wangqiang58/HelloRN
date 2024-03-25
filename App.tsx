@@ -22,6 +22,7 @@ import ScrollableTabView, { ScrollableTabBar, DefaultTabBar } from 'react-native
 import IndexScreen from './homepage';
 import MoreComponent from './more';
 import MoreScreen from './more';
+import VideoScreen from './video';
 
 
 export default class AppScreen extends Component {
@@ -45,8 +46,8 @@ export default class AppScreen extends Component {
           this.props.navigation.navigate("Details", { "title": 'haha' })
         }} />
       </View>
-      <View tabLabel='活动' style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'red' }}>
-        <Text>Tab 2 content2</Text>
+      <View tabLabel='视频' style={{ flex: 1, justifyContent: 'top',}}>
+        <VideoScreen></VideoScreen>
       </View>
       <View
         tabLabel='个人中心'
