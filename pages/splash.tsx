@@ -17,7 +17,7 @@ export default class SplashScreen extends Component {
         return (<View style={styles.container}>
             <Image
                 style={styles.image}
-                source={require('./images/common_bg_oral_eva_large.png')}>
+                source={require('./../images/common_bg_oral_eva_large.png')}>
             </Image>
         </View>)
     }
