@@ -5,12 +5,12 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug Android",
-            "cwd": "${workspaceFolder}",
-            "type": "reactnative",
+            "name": "Debug Android - Experimental",
             "request": "launch",
-            "platform": "android",
-            "sourceMaps": true
+            "type": "reactnative",
+            "cwd": "${workspaceFolder}",
+            "sourceMaps": true,
+            "platform": "android"
         }
     ]
 }

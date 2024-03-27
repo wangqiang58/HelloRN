@@ -2,6 +2,7 @@ import { Component, ReactNode } from "react";
 import { NativeModules } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { Button, StyleSheet, Text, View, Alert, TextInput } from "react-native";
+import { storeData } from "./data";
 
 
 
@@ -17,6 +18,7 @@ export default class LoginScreen extends Component {
     private handleLogin = () => {
         // 这里可以添加登录逻辑，比如验证账号和密码
         if (this.state.username === '15210225563' && this.state.password === '123') {
+            storeData('is_login','1')
             this.props.navigation.replace('AppScreen')
         } else {
             this._toast('登录失败')
@@ -52,7 +54,7 @@ export default class LoginScreen extends Component {
                     })
                     this.handleTextPress()
                 }}
-                style={{ paddingLeft: 20, borderWidth: 0, marginBottom: 10, width: 300, borderRadius: 40, backgroundColor: 'white' }}
+                style={{ paddingLeft: 20, borderWidth: 0, marginBottom: 10, width: 300, borderRadius: 40, backgroundColor: 'white',color:'gray' }}
             />
             <TextInput
                 placeholder="输入短信验证码"
@@ -64,7 +66,7 @@ export default class LoginScreen extends Component {
                     this.handleTextPress()
                 }}
                 secureTextEntry
-                style={{ paddingLeft: 20, borderWidth: 0, marginBottom: 10, width: 300, borderRadius: 40, backgroundColor: 'white' }}
+                style={{ paddingLeft: 20, borderWidth: 0, marginBottom: 10, width: 300, borderRadius: 40, backgroundColor: 'white',color:'gray' }}
             />
             <TouchableOpacity onPress={this.handleLogin}>
                 <Text style={{ width: 200, backgroundColor: this.state.highlighted ? '#00CC66' : 'grey', color: 'white', height: 40, borderRadius: 20, alignContent: "center", justifyContent: 'center', textAlign: 'center', textAlignVertical: 'center' }}>登录</Text>

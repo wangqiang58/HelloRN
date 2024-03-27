@@ -1,6 +1,6 @@
 import { Component, ReactNode, version } from "react";
 import { Alert, View } from "react-native";
-import BannerScreen from "../banner";
+import BannerScreen from "./banner";
 import HomeScreen from "./home";
 
 interface IndexScreenProps {

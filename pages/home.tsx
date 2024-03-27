@@ -92,11 +92,6 @@ export default class HomeScreen extends Component<ItemProps, ItemState> {
     }
   }
 
-  handleItemClick() {
-    //Alert.alert('ss' + {this.state})
-    this.props.callback()
-  }
-
   render(): React.ReactNode {
     const { title, content, callback } = this.props;
   

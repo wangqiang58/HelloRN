@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--数字-->
+    <style name="widget_font_number">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!--常规体-->
+    <style name="widget_font_regular">
+    </style>
+
+    <!--中黑体-->
+    <style name="widget_font_medium">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!--粗体-->
+    <style name="widget_font_bold">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!--粗体btn-->
+    <style name="widget_font_bold_btn">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+</resources>

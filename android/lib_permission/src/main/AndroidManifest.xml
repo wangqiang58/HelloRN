@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="cn.xdf.ucan.troy.lib.permission">
+
+    <application android:screenOrientation="landscape">
+        <activity
+            android:name=".sample.SampleActivity"
+            android:label="权限使用示范"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar">
+            <!--<intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>-->
+        </activity>
+    </application>
+
+</manifest>

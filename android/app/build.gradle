@@ -114,6 +114,19 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+
+    implementation rootProject.ext.dependencies["core-ktx"]
+    implementation rootProject.ext.dependencies["appcompat"]
+    implementation rootProject.ext.dependencies["runtimeKtx"]
+    implementation project(':module_main')
+    implementation project(':lib_utils')
+    implementation project(':lib_permission')
+
+
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)

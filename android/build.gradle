@@ -1,3 +1,5 @@
+apply from: "config.gradle"
+
 buildscript {
     ext {
         buildToolsVersion = "33.0.1"
@@ -10,11 +12,59 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'https://maven.aliyun.com/nexus/content/repositories/jcenter' }
+        maven { url 'https://maven.aliyun.com/nexus/content/repositories/google' }
+        maven { url 'https://maven.aliyun.com/nexus/content/repositories/gradle-plugin' }
+        mavenLocal()
+        maven { url "https://jitpack.io" }
+        google()
+        mavenCentral()
+        maven { url "http://nexus.staff.xdf.cn/repository/maven-releases/"
+            allowInsecureProtocol = true}
+        maven { url "http://nexus.staff.xdf.cn/repository/maven-snapshots/"
+            allowInsecureProtocol = true}
+        maven {
+            url 'https://gitlab.bonree.com/BonreeSDK_TAPM/Android/raw/master'
+        }
     }
     dependencies {
         classpath("com.android.tools.build:gradle")
         classpath("com.facebook.react:react-native-gradle-plugin")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin")
+        classpath 'com.android.tools.build:gradle:8.1.0'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.10'
+        // MoonBridge解决加固的问题插件
+//        classpath 'cn.xdf.moonBridge:plugin:1.0.2'
+        classpath fileTree(include: ['*.jar'], dir: 'lib_libs/libs')
+//        classpath 'com.billy.android:autoregister:1.3.0'
+        // GrowingIo
+        classpath 'com.growingio.android:vds-gradle-plugin:autotrack-2.9.13'
+//        classpath "com.bonree.agent.android:bonree:7.5.0"
+        classpath 'com.yanzhenjie.andserver:plugin:2.1.10'
+
+        // hilt
+        classpath "com.google.dagger:hilt-android-gradle-plugin:2.44"
+    }
+}
+
+allprojects {
+    repositories {
+        maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'https://maven.aliyun.com/nexus/content/repositories/jcenter' }
+        maven { url 'https://maven.aliyun.com/nexus/content/repositories/google' }
+        maven { url 'https://maven.aliyun.com/nexus/content/repositories/gradle-plugin' }
+        google()
+        mavenLocal()
+        maven { url "https://jitpack.io" }
+        mavenCentral()
+        maven { url "http://nexus.staff.xdf.cn/repository/maven-releases/"
+            allowInsecureProtocol = true}
+        maven { url "http://nexus.staff.xdf.cn/repository/maven-snapshots/"
+            allowInsecureProtocol = true}
+        maven {
+            url 'https://gitlab.bonree.com/BonreeSDK_TAPM/Android/raw/master'
+        }
     }
 }
 

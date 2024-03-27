@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--主题色-->
+    <color name="widget_color_theme">#FF00E277</color>
+    <color name="widget_color_white">#FFFFFFFF</color>
+    <color name="widget_color_black">#FF000000</color>
+    <color name="widget_color_white_un_select">#B3FFFFFF</color>
+    <color name="widget_color_white_hint">#A3FFFFFF</color>
+    <color name="widget_color_bg">#FFE7F3FF</color>
+
+    <color name="widget_color_transparent">#00FFFFFF</color>
+    <color name="widget_color_FA6400">#FA6400</color>
+
+    <!--辅助色 明亮背景环境-->
+    <color name="widget_color_gray_1">#FF333333</color>
+    <color name="widget_color_gray_2">#FF666666</color>
+    <color name="widget_color_gray_3">#FF999999</color>
+    <color name="widget_color_gray_4">#FFC6C6C6</color>
+    <color name="widget_color_gray_5">#FFC6C6C6</color>
+    <color name="widget_color_gray_6">#FFEEEEEE</color>
+    <color name="widget_color_gray_7">#FFF5F5F5</color>
+    <color name="widget_color_gray_8">#FFFAFAFA</color>
+</resources>

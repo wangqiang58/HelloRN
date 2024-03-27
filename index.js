@@ -3,8 +3,6 @@
  */
 
 import { AppRegistry } from 'react-native';
-import HomeScreen from './pages/home';
-
 import { name as appName } from './app.json';
 import DetailPage from './pages/detai';
 import IndexScreen from './pages/homepage';

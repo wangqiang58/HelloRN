@@ -83,7 +83,6 @@ export default class VideoScreen extends Component {
 
     render() {
         return (
-
             <View>
                 <TouchableWithoutFeedback
                     //点击视频暂停/播放 
@@ -110,8 +109,6 @@ export default class VideoScreen extends Component {
                         onEnd={this.onEnd}
                         onError={this.onError}
                         style={styles.video}
-
-
                     />
                 </TouchableWithoutFeedback>
                 {/* 进度条 */}
@@ -151,7 +148,7 @@ export default class VideoScreen extends Component {
 const styles = StyleSheet.create({
     video: {
         width: '100%',
-        height: 300,
+        height:200,
         backgroundColor: 'black',
         justifyContent: 'center',
         alignItems: 'center',

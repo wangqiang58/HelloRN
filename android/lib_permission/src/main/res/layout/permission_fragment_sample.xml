@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/holo_green_dark">
+
+    <Button
+        android:id="@+id/fragment_rq_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="从Fragment发起权限申请，只包装申请方式" />
+
+    <Button
+        android:id="@+id/fragment_rq_btn1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="从Fragment发起权限申请，包装申请回调" />
+
+</LinearLayout>

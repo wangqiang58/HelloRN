@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="7dp"
+    android:orientation="vertical"
+    tools:ignore="ResourceName">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#1E1E1E"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        tools:text="存储权限" />
+
+    <TextView
+        android:id="@+id/tv_des"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#1E1E1E"
+        android:textSize="14dp"
+        tools:text="该权限用于存储学习资料内容、查看并选择本地图片、上传头像功能，请打开该权限以免部分功能无法使用。" />
+</LinearLayout>

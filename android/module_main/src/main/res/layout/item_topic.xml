@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:background="@drawable/item_topic_bg"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/topic_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="28dp"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="练习煽风点火设计的风格是大是大非时间"
+            android:textColor="@color/black_33"
+            android:layout_toLeftOf="@id/view"
+            android:textSize="23sp"
+            android:textStyle="bold"></TextView>
+
+        <View
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:id="@+id/view"
+            android:layout_toLeftOf="@+id/arrow_iv">
+        </View>
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="22dp"
+            android:layout_marginRight="28dp"
+            android:background="@mipmap/arrow"
+            android:id="@+id/arrow_iv"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true">
+
+        </ImageView>
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

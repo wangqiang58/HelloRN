@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_dialog_eva_record_permission_confirm_title">麦克风权限尚未开启，请在系统「设置」中开启</string>
+    <string name="widget_dialog_eva_permission_confirm_cancel">取消</string>
+    <string name="widget_dialog_eva_permission_confirm_setting">去设置</string>
+    <string name="widget_dialog_eva_permission_confirm_un_open">暂不开启</string>
+    <string name="widget_dialog_eva_record_permission_micro_help">麦克风有问题？</string>
+    <string name="widget_dialog_eva_record_permission_micro_jump">跳过此练习></string>
+
+    <string name="widget_common_cancel">取消</string>
+    <string name="widget_common_sure">确认</string>
+</resources>

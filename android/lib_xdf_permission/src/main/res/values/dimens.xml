@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--字体 一二三级标题-->
+    <dimen name="widget_font_title">27dp</dimen>
+    <dimen name="widget_font_h1">22dp</dimen>
+    <dimen name="widget_font_h2">20dp</dimen>
+    <dimen name="widget_font_h3">18dp</dimen>
+    <!--字体 正文、小标题-->
+    <dimen name="widget_font_body">16dp</dimen>
+    <!--字体 描述、辅助文字-->
+    <dimen name="widget_font_des">14dp</dimen>
+    <!--字体 图标说明文字-->
+    <dimen name="widget_font_icon_explain">12dp</dimen>
+</resources>

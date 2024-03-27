@@ -9,11 +9,11 @@ import Duration from "react-native-mix-toast";
 
 import Swiper from 'react-native-swiper';
 
-let img1url = "https://fastly.picsum.photos/id/32/200/200.jpg?hmac=O33StVyZ6hc7IKBGYYxg-q1uv2_GimqYake6LB-EieE";
-let img2url = "https://fastly.picsum.photos/id/32/200/200.jpg?hmac=O33StVyZ6hc7IKBGYYxg-q1uv2_GimqYake6LB-EieE";
-let img3url = "https://fastly.picsum.photos/id/32/200/200.jpg?hmac=O33StVyZ6hc7IKBGYYxg-q1uv2_GimqYake6LB-EieE";
+let img1url = "https://cdn2.thecatapi.com/images/Yt4_Z0aDC.jpg";
+let img2url = "https://cdn2.thecatapi.com/images/2mv.jpg";
+let img3url = "https://cdn2.thecatapi.com/images/MTYzMDkyMg.jpg";
 // 获取屏幕宽度
-const screenWidth = Dimensions.get('window').width;
+const {width} = Dimensions.get('window');
 
 export default class BannerScreen extends Component {
     render(): ReactNode {
@@ -70,12 +70,12 @@ export default class BannerScreen extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        height:300,
+        height:200,
         backgroundColor: '#FFFFFF'
     },
     swiper_parent: {
-        width: screenWidth,
-        height: 300
+        width: width,
+        height: 200
     },
     slide: {
         flex: 1,
@@ -87,6 +87,6 @@ const styles = StyleSheet.create({
     },
     image: {
         flex: 1,
-        width: screenWidth
+        width: width
     }
 });
