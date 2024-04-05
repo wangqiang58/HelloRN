@@ -4,13 +4,13 @@
 
 import { AppRegistry } from 'react-native';
 import { name as appName } from './app.json';
-import DetailPage from './pages/detai';
-import IndexScreen from './pages/homepage';
+import DetailPage from './app/pages/detai';
+import IndexScreen from './app/pages/homepage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import AppScreen from './pages/App';
-import LoginScreen from './pages/login';
-import SplashScreen from './pages/splash';
+import AppScreen from './app/pages/Appbars';
+import LoginScreen from './app/pages/login';
+import SplashScreen from './app/pages/splash';
 
 const Stack = createStackNavigator();
 

@@ -8,14 +8,34 @@ import Toast from "react-native-mix-toast";
 import Duration from "react-native-mix-toast";
 
 import Swiper from 'react-native-swiper';
+import { getCatList } from "../api/AppApi";
 
 let img1url = "https://cdn2.thecatapi.com/images/Yt4_Z0aDC.jpg";
 let img2url = "https://cdn2.thecatapi.com/images/2mv.jpg";
 let img3url = "https://cdn2.thecatapi.com/images/MTYzMDkyMg.jpg";
 // 获取屏幕宽度
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 export default class BannerScreen extends Component {
+
+    state = {
+        'bannerData': []
+    }
+
+    constructor(props) {
+        super(props)
+    }
+
+    componentDidMount(): void {
+        getCatList().then((data) => {
+            this.setState({
+                'bannerData': data.slice(0, 5)
+            })
+        }).catch((error) => {
+            console.warn('数据异常.....')
+        })
+    }
+
     render(): ReactNode {
         return (
             <View style={[styles.container, styles.center]}>
@@ -52,15 +72,11 @@ export default class BannerScreen extends Component {
                             />
                         }
                     >
-                        <View style={[styles.slide, styles.center]}>
-                            <Image style={styles.image} resizeMode="stretch" source={{ uri: img1url }} />
-                        </View>
-                        <View style={[styles.slide, styles.center]}>
-                            <Image style={styles.image} resizeMode="stretch" source={{ uri: img2url }} />
-                        </View>
-                        <View style={[styles.slide, styles.center]}>
-                            <Image style={styles.image} resizeMode="stretch" source={{ uri: img3url }} />
-                        </View>
+                        {this.state.bannerData.map((item, index) => {
+                            return (<View key={index} style={[styles.slide, styles.center]}>
+                                <Image style={styles.image} resizeMode="stretch" source={{ uri: item['url'] }} />
+                            </View>)
+                        })}
                     </Swiper>
                 </View>
             </View>
@@ -70,7 +86,7 @@ export default class BannerScreen extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        height:200,
+        height: 200,
         backgroundColor: '#FFFFFF'
     },
     swiper_parent: {
@@ -79,7 +95,7 @@ const styles = StyleSheet.create({
     },
     slide: {
         flex: 1,
-        backgroundColor: 'blue',
+        backgroundColor: 'gray',
     },
     center: {
         justifyContent: 'flex-start',

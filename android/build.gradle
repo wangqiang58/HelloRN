@@ -12,7 +12,7 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+         maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
         maven { url 'https://maven.aliyun.com/nexus/content/repositories/jcenter' }
         maven { url 'https://maven.aliyun.com/nexus/content/repositories/google' }
         maven { url 'https://maven.aliyun.com/nexus/content/repositories/gradle-plugin' }
@@ -32,7 +32,7 @@ buildscript {
         classpath("com.android.tools.build:gradle")
         classpath("com.facebook.react:react-native-gradle-plugin")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin")
-        classpath 'com.android.tools.build:gradle:8.1.0'
+              classpath 'com.android.tools.build:gradle:8.1.0'
         classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.10'
         // MoonBridge解决加固的问题插件
 //        classpath 'cn.xdf.moonBridge:plugin:1.0.2'
@@ -47,6 +47,7 @@ buildscript {
         classpath "com.google.dagger:hilt-android-gradle-plugin:2.44"
     }
 }
+
 
 allprojects {
     repositories {

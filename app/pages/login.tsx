@@ -1,5 +1,5 @@
 import { Component, ReactNode } from "react";
-import { NativeModules } from "react-native";
+import { NativeModules, Platform } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { Button, StyleSheet, Text, View, Alert, TextInput } from "react-native";
 import { storeData } from "./data";
@@ -8,9 +8,12 @@ import { storeData } from "./data";
 
 export default class LoginScreen extends Component {
 
+
+
     private deviceInfoModule = NativeModules.DeviceInfoModule;
 
     _toast = (msg: string) => {
+        Platform.select
         this.deviceInfoModule.showToast(msg);
     };
 
