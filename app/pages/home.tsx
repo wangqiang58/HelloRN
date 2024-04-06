@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { NavigationScreenProp } from 'react-navigation';
 import { getMovieList } from '../api/AppApi';
+import { Actions } from 'react-native-router-flux';
 
 
 interface ItemProps {
@@ -67,8 +68,7 @@ export default class HomeScreen extends Component {
            description={info.item.description}
            ctime = {info.item.ctime}
            callback={()=>{
-            console.warn('点击进入')
-            this.props.push('Details')
+            Actions.push('Details')
            }}></Item>
         }}
         keyExtractor={item => item.id}

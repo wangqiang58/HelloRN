@@ -3,6 +3,7 @@ import { Alert, Dimensions } from "react-native";
 import { StyleSheet } from "react-native";
 import { Image, View } from "react-native";
 import { getData } from "./data";
+import { Actions } from "react-native-router-flux";
 
 export default class SplashScreen extends Component {
 
@@ -15,9 +16,9 @@ export default class SplashScreen extends Component {
     async dispatchPage() {
         var result = getData('is_login')
         if (await result!='1') {
-            this.props.navigation.replace('LoginScreen')
+            Actions.replace('LoginScreen')
         } else {
-            this.props.navigation.replace('AppScreen')
+            Actions.replace('AppScreen')
         }
     }
 

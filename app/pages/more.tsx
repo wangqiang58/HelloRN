@@ -7,6 +7,7 @@ import { Text, View } from "react-native";
 import { NativeModules } from 'react-native';
 import { storeData } from "./data";
 import { NavigationContext } from "@react-navigation/native";
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
 
 
 const Item: React.FC = () => {
@@ -67,7 +68,6 @@ export default class MoreScreen extends Component {
             <Text style={{ fontSize: 24, color: '#333333' }}>设置</Text>
 
             <ScrollView style={[styles.scrollview]}>
-
                 <Text style={styles.titleText}>清理缓存</Text>
                 <View style={{ backgroundColor: '#EEEEEE', height: 1 }}></View>
 
