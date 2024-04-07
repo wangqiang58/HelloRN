@@ -11,6 +11,7 @@ import com.facebook.react.defaults.DefaultReactHost.getDefaultReactHost
 import com.facebook.react.defaults.DefaultReactNativeHost
 import com.facebook.react.flipper.ReactNativeFlipper
 import com.facebook.soloader.SoLoader
+import java.io.File
 
 class MainApplication : Application(), ReactApplication {
 
@@ -22,7 +23,18 @@ class MainApplication : Application(), ReactApplication {
                add(DeviceInfoPackage())
             }
 
-        override fun getJSMainModuleName(): String = "index"
+//        override fun getJSMainModuleName(): String {
+//            return "index1"
+//        }
+//
+//          override fun getJSBundleFile(): String? {
+////              val bundleJs = "/sdcard/index.android.bundle"
+////              return bundleJs
+//          }
+
+          override fun getBundleAssetName(): String? {
+              return "index.android.bundle"
+          }
 
         override fun getUseDeveloperSupport(): Boolean = BuildConfig.DEBUG
 

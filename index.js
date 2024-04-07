@@ -15,7 +15,7 @@ const App = () => {
             <Scene key="SplashScreen" component={SplashScreen} hideNavBar={true}/>
             <Scene key="LoginScreen" component={LoginScreen} hideNavBar={true}/>
             <Scene key="AppScreen" component={AppScreen} hideNavBar={true}/>
-            <Scene key="Details" component={DetailPage} hideBackImage={false} title={'新闻详情'}/>
+            <Scene key="Details" component={DetailPage} hideBackImage={false} title={'新闻列表'}/>
           </Scene>
         </Router>)
     

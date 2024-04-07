@@ -1,65 +1,71 @@
 import { Component, ReactNode } from "react"
-import { FlatList } from "react-native";
+import { FlatList, Image, Platform } from "react-native";
 import { Alert, Text, View, ActivityIndicator } from "react-native"
+import constantData from './../mock/movices.json';
+import { TouchableHighlight } from "react-native-gesture-handler";
+import { NativeModules } from "react-native";
+import { StatusBar } from "react-native";
+
 
 interface IDetailProps {
     title: string
 }
 
-
-
 export default class DetailPage extends Component<IDetailProps> {
+    
+    private deviceInfoModule = NativeModules.DeviceInfoModule;
+
 
     constructor(props: IDetailProps) {
         super(props)
     }
 
+
     state = {
         isLoading: false,
-        responseData: null
+        responseData: null,
+        jsonData: null
     }
+    
 
-    renderItem = ({ item}) => {
-        return <Text style={{ height: 40, backgroundColor: 'red', marginVertical: 10, alignItems: 'center', alignContent: 'center', textAlign: 'center' }}>
-            {item.title}
-        </Text>;
+    renderItem = ({ item }) => {
+        return <TouchableHighlight onPress={()=>{
+            this.deviceInfoModule.startWebActivity(item['url'])
+        }}>
+            <View style={{ backgroundColor: 'white', flexDirection: 'row', width: '100%', marginVertical: 1, paddingVertical: 10, marginHorizontal: 5 }}>
+            <StatusBar
+              translucent={false}
+              backgroundColor='white'
+               barStyle='dark-content'
+             />
+
+
+                <Image style={{ height: 50, width: 50, borderRadius: Platform.OS == 'android' ? 10 :15 }} source={{ uri: item['thumbnail_pic_s'] }}></Image>
+                <View style={{ marginLeft: 10 }}>
+                    <Text style={{ color: 'black', alignItems: 'center' }}>
+                        {item.title}
+                    </Text>
+                    <Text style={{ color: 'black' }}>作者:{item.author_name}</Text>
+                    <Text style={{ color: 'grey' }}>时间:{item.date}</Text>
+                </View>
+            </View>
+        </TouchableHighlight>
+
+
     };
 
     render(): React.ReactNode {
-        const { isLoading, responseData } = this.state;
-        const { title } = this.props
-
+        const { isLoading } = this.state;
 
         return (
             <View style={{ flex: 1 }}>
                 {isLoading && <ActivityIndicator size="large" color="#0000ff" />}
-                <Text>{title}</Text>
                 <FlatList
-                    data={responseData}
+                    data={constantData.result.data}
                     renderItem={this.renderItem}
                     keyExtractor={(item, index) => index.toString()}
                 />
             </View>
         )
     }
-
-    componentDidMount(): void {
-        this.getMoviesFromApiAsync()
-    }
-
-    getMoviesFromApiAsync() {
-        this.setState({ isLoading: true })
-        fetch('https://facebook.github.io/react-native/movies.json')
-            .then((response) => response.json())
-            .then((data) => {
-                this.setState({ responseData: data.movies })
-            })
-            .catch((error) => {
-                console.error(error);
-                Alert.alert(error)
-            }).finally(() => {
-                this.setState({ isLoading: false })
-            })
-
-    };
 }

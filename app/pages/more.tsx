@@ -7,7 +7,8 @@ import { Text, View } from "react-native";
 import { NativeModules } from 'react-native';
 import { storeData } from "./data";
 import { NavigationContext } from "@react-navigation/native";
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import { Actions } from "react-native-router-flux";
+import { StatusBar } from "react-native";
 
 
 const Item: React.FC = () => {
@@ -36,7 +37,7 @@ export default class MoreScreen extends Component {
     _toast = () => {
         this.deviceInfoModule.showToast('退出登录');
         storeData("is_login","0")
-        this.context.navigate("LoginScreen")
+        Actions.push("LoginScreen")
     };
     _alert = () => {
         this.deviceInfoModule.alert('title', '我调用了原生的Alert方法');
@@ -65,6 +66,11 @@ export default class MoreScreen extends Component {
             justifyContent: 'flex-start',
             alignItems: 'center',
         }}>
+              <StatusBar
+                    translucent={false}
+                    backgroundColor='#E7F3FF'
+                    barStyle='dark-content'/>
+                    
             <Text style={{ fontSize: 24, color: '#333333' }}>设置</Text>
 
             <ScrollView style={[styles.scrollview]}>

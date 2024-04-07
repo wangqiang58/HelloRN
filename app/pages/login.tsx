@@ -47,7 +47,7 @@ export default class LoginScreen extends Component {
         return (<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#CEE4FC' }}>
 
             <Text style={{ fontSize: 24, color: 'black' }}>一点一看</Text>
-            <Text style={{ marginVertical: 10 }}>未注册手机登录验证后可完成注册</Text>
+            <Text style={{ marginVertical: 10 ,color:'black'}}>未注册手机登录验证后可完成注册</Text>
             <TextInput
                 placeholder="请输入手机号"
                 placeholderTextColor={'grey'}

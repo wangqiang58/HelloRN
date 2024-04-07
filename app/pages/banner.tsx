@@ -19,7 +19,7 @@ const { width } = Dimensions.get('window');
 export default class BannerScreen extends Component {
 
     state = {
-        'bannerData': []
+        bannerData: []
     }
 
     constructor(props) {
@@ -29,18 +29,21 @@ export default class BannerScreen extends Component {
     componentDidMount(): void {
         getCatList().then((data) => {
             this.setState({
-                'bannerData': data.slice(0, 5)
+                bannerData: data.slice(0, 5)
             })
         }).catch((error) => {
-            console.warn('数据异常.....')
+            console.warn(error)
         })
     }
 
     render(): ReactNode {
+        const {bannerData} = this.state
+    
         return (
             <View style={[styles.container, styles.center]}>
                 <View style={[styles.swiper_parent, styles.center]}>
-                    <Swiper showsButtons={false}
+                 {bannerData.length ?
+                    <Swiper
                         autoplay={true}
                         autoplayTimeout={5}
                         dot={
@@ -74,10 +77,11 @@ export default class BannerScreen extends Component {
                     >
                         {this.state.bannerData.map((item, index) => {
                             return (<View key={index} style={[styles.slide, styles.center]}>
-                                <Image style={styles.image} resizeMode="stretch" source={{ uri: item['url'] }} />
+                                <Image style={styles.image} resizeMode="stretch" source={{ uri: item.url}} />
                             </View>)
                         })}
-                    </Swiper>
+                    </Swiper> : null
+    }
                 </View>
             </View>
         );
@@ -103,6 +107,7 @@ const styles = StyleSheet.create({
     },
     image: {
         flex: 1,
-        width: width
+        width: width,
+        height:200
     }
 });

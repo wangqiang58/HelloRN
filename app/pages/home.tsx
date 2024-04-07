@@ -7,8 +7,7 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-import { NavigationScreenProp } from 'react-navigation';
-import { getMovieList } from '../api/AppApi';
+import { getMovices, getNewsList } from '../api/AppApi';
 import { Actions } from 'react-native-router-flux';
 
 
@@ -41,8 +40,7 @@ export default class HomeScreen extends Component {
   }
 
   componentDidMount(): void {
-    getMovieList().then((response) => {
-
+    getNewsList().then((response) => {
       this.setState({
         newslist: response.data.newslist
       })
@@ -69,6 +67,7 @@ export default class HomeScreen extends Component {
            ctime = {info.item.ctime}
            callback={()=>{
             Actions.push('Details')
+
            }}></Item>
         }}
         keyExtractor={item => item.id}
