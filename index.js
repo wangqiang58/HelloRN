@@ -9,6 +9,8 @@ import AppScreen from './app/pages/Appbars';
 import LoginScreen from './app/pages/login';
 import SplashScreen from './app/pages/splash';
 import { Router,Scene } from 'react-native-router-flux';
+import CodePush from 'react-native-code-push';
+
 const App = () => {
         return (<Router>
           <Scene key="root">
@@ -20,6 +22,7 @@ const App = () => {
         </Router>)
     
 };
+
 
 AppRegistry.registerComponent(appName, () => {
     return App

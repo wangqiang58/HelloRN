@@ -1,6 +1,9 @@
 rootProject.name = 'HelloRN'
 apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
 include ':app'
+include ':react-native-code-push'
+project(':react-native-code-push').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-code-push/android/app')
+
 include ':lib_network'
 include ':module_main' // 主业务（聊天页面）
 include ':lib_utils'

@@ -1,6 +1,9 @@
 apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
+//apply from: "../../node_modules/react-native/react.gradle"
+apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
+
 
 /**
  * This is the configuration block to customize your React Native Android app.
@@ -93,6 +96,8 @@ android {
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
+            resValue  "string", "CodePushDeploymentKey", '""' // In debug
+
         }
         release {
             // Caution! In production, you need to generate your own keystore file.
@@ -100,6 +105,7 @@ android {
             signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            resValue  "string", "CodePushDeploymentKey", '1PNNPF7MpzBhJlDPRq8FxDrbrpXc5s7UdqJrC' // In debug
         }
     }
 }
