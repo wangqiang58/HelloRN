@@ -3,13 +3,12 @@
  */
 
 import { AppRegistry } from 'react-native';
-import { name as appName } from './app.json';
+import { bu_home } from './app.json';
 import DetailPage from './app/pages/detai';
 import AppScreen from './app/pages/Appbars';
 import LoginScreen from './app/pages/login';
 import SplashScreen from './app/pages/splash';
 import { Router,Scene } from 'react-native-router-flux';
-import CodePush from 'react-native-code-push';
 
 const App = () => {
         return (<Router>
@@ -24,6 +23,6 @@ const App = () => {
 };
 
 
-AppRegistry.registerComponent(appName, () => {
+AppRegistry.registerComponent("home", () => {
     return App
 });
