@@ -1,4 +1,6 @@
 {
   "name": "HelloRN",
-  "displayName": "HelloRN"
+  "displayName": "HelloRN",
+  "bu_search":"search",
+  "bu_home":"home"
 }

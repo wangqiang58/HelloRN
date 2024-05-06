@@ -90,5 +90,23 @@ public class WelcomeActivity extends Activity implements DefaultHardwareBackBtnH
                 startActivity(intent);
             }
         });
+
+        findViewById(R.id.btn3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                ReactNativeFlipper.initializeFlipper(MainApplication.instance, MainApplication.instance.getReactNativeHost().getReactInstanceManager());
+                Intent intent = new Intent(WelcomeActivity.this, AllActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        findViewById(R.id.btn4).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                ReactNativeFlipper.initializeFlipper(MainApplication.instance, MainApplication.instance.getReactNativeHost().getReactInstanceManager());
+                Intent intent = new Intent(WelcomeActivity.this, All2Activity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

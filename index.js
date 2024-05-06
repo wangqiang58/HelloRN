@@ -3,11 +3,10 @@
  */
 
 import { AppRegistry } from 'react-native';
-import { bu_home } from './app.json';
-import DetailPage from './app/pages/detai';
-import AppScreen from './app/pages/Appbars';
-import LoginScreen from './app/pages/login';
-import SplashScreen from './app/pages/splash';
+import DetailPage from './src/pages/detai';
+import AppScreen from './src/pages/Appbars';
+import LoginScreen from './src/pages/login';
+import SplashScreen from './src/pages/splash';
 import { Router,Scene } from 'react-native-router-flux';
 
 const App = () => {

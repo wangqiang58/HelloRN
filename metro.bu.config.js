@@ -1,6 +1,7 @@
 const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
-const { hasBuildInfo, getCacheFile, isPwdFile } = require("./build");
+const { hasBuildInfo, getCacheFile, isPwdFile ,writeBuildInfo } = require("./build");
 const bundleBuInfo = require("./config/bundleBuInfo.json");
+
 function postProcessModulesFilter(module) {
   if (
     module["path"].indexOf("__prelude__") >= 0 ||
@@ -22,6 +23,7 @@ function createModuleIdFactory() {
   const fileToIdMap = new Map();
   let nextId = 10000000;
   let isFirst = false;
+  console.log('xxxxxx开始打包')
 
   return (path) => {
     if (Boolean(getCacheFile("./config/bundleCommonInfo.json", path))) {
@@ -38,6 +40,16 @@ function createModuleIdFactory() {
       id = nextId++;
       fileToIdMap.set(path, id);
     }
+
+    // console.log('path='+path+',id='+id)
+
+    // !hasBuildInfo("./config/bundleIndexInfo.json", path) &&
+    // writeBuildInfo(
+    //   "./config/bundleIndexInfo.json",
+    //   path,
+    //   id
+    // );
+
     return id;
   };
 }

@@ -13,7 +13,7 @@ export default class SearchPage extends Component{
     render(): React.ReactNode {
 
         return <View style={styles.container}>
-            <Text style={styles.hello}>BU1 </Text>
+            <Text style={styles.hello}>搜索模块</Text>
             <Button
               title="前往BU2"
               onPress={() => {

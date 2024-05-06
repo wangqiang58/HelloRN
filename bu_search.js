@@ -1,7 +1,7 @@
 import React from "react";
 import { AppRegistry } from "react-native";
 import { bu_search } from "./app.json";
-import SearchPage from './app/modules/search'
+import SearchPage from './src/modules/search'
 import { Router,Scene } from 'react-native-router-flux';
 
 // 整个App 的骨架，基础包 更新要严格控制
