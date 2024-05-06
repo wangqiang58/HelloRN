@@ -76,26 +76,17 @@ public class WelcomeActivity extends Activity implements DefaultHardwareBackBtnH
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-
-        mReactInstanceManager = ReactInstanceManager.builder()
-                .setApplication(getApplication())
-                .setBundleAssetName("index.android.bundle")
-                .addPackage(new MainReactPackage())
-                .setInitialLifecycleState(mLifecycleState)
-                .setJSMainModulePath("index")
-                .setUseDeveloperSupport(BuildConfig.DEBUG)
-                .build();
-
         findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(WelcomeActivity.this, IndexActivity.class);
+                startActivity(intent);
+            }
+        });
 
-                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        sendMessageToReactNative("我来自native消息....");
-                    }
-                },10000);
+        findViewById(R.id.btn2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
                 startActivity(intent);
             }
