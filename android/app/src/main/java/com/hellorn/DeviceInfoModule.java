@@ -17,6 +17,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.modules.appregistry.AppRegistry;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,21 +39,21 @@ public class DeviceInfoModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void alert(String title, String message) {
-        AlertDialog.Builder tDialog = new AlertDialog.Builder(getCurrentActivity());
-        tDialog.setTitle(title);
-        tDialog.setMessage(message);
-        tDialog.setPositiveButton("确定", null);
-        tDialog.setNegativeButton("取消", null);
-        tDialog.show();
+//        AlertDialog.Builder tDialog = new AlertDialog.Builder(getCurrentActivity());
+//        tDialog.setTitle(title);
+//        tDialog.setMessage(message);
+//        tDialog.setPositiveButton("确定", null);
+//        tDialog.setNegativeButton("取消", null);
+//        tDialog.show();
+        ((HelloRegistry) getReactApplicationContext().getJSModule(HelloRegistry.class)).print();
     }
 
     @ReactMethod
     public void startWebActivity(String url) {
-        Intent intent = new Intent(getCurrentActivity(),WebActivity.class);
-        intent.putExtra("url",url);
+        Intent intent = new Intent(getCurrentActivity(), WebActivity.class);
+        intent.putExtra("url", url);
         getCurrentActivity().startActivity(intent);
     }
-
 
 
     @ReactMethod

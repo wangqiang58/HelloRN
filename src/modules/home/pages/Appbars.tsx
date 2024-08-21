@@ -17,7 +17,6 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
 
 import ScrollableTabView, { ScrollableTabBar, DefaultTabBar } from 'react-native-scrollable-tab-view';
 import IndexScreen from './homepage';
@@ -28,11 +27,9 @@ import VideoScreen from './video';
 
 export default class AppScreen extends Component {
 
-  private handleCallback = () => {
-    this.props.navigation.navigate("Details", { "title": 'haha' })
-  };
 
   render(): React.ReactNode {
+    
     return <ScrollableTabView
       tabBarActiveTextColor="#28C35A"
       tabBarInactiveTextColor="#000000"
@@ -58,7 +55,3 @@ export default class AppScreen extends Component {
     </ScrollableTabView>;
   }
 }
-
-var style = StyleSheet.create({
-
-})

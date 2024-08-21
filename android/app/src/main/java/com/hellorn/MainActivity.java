@@ -33,19 +33,6 @@ public class MainActivity extends ReactActivity {
 
                     @Nullable
                     @Override
-                    protected String getJSBundleFile() {
-                        String path =  MainActivity.this.getFilesDir() + "/bundle/index/index.android.bundle";
-                        File file = new File(path);
-                        if (file.exists()){
-                            Log.d("RN","index 文件存在");
-                        }else{
-                            Log.d("RN","index 文件不存在");
-                        }
-                        return path;
-                    }
-
-                    @Nullable
-                    @Override
                     protected JavaScriptExecutorFactory getJavaScriptExecutorFactory() {
                         return new HermesExecutorFactory();
                     }

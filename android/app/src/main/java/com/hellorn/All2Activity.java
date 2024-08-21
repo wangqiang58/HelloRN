@@ -36,11 +36,9 @@ public class All2Activity extends AppCompatActivity implements DefaultHardwareBa
     }
 
 
-
     public String getJsModulePathPath() {
         return "index";
     }
-
 
 
     public String getResName() {
@@ -48,14 +46,22 @@ public class All2Activity extends AppCompatActivity implements DefaultHardwareBa
     }
 
 
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SoLoader.init(this, false);
-
         if (BuildConfig.DEBUG) {
+            mReactRootView = ReactNativePreLoader.getReactRootView(this, "home");
+            if (mReactRootView != null) {
+                mReactRootView.getReactInstanceManager().recreateReactContextInBackground();
+                setContentView(mReactRootView);
+                Log.d("RN", "预加载成功...");
+                return;
+            }
+
+
+            Log.d("RN", "预加载失败...");
+
             mReactRootView = new ReactRootView(this);
             mReactInstanceManager = ReactInstanceManager.builder()
                     .setApplication(getApplication())
@@ -66,7 +72,6 @@ public class All2Activity extends AppCompatActivity implements DefaultHardwareBa
                     .setUseDeveloperSupport(true)
                     .setInitialLifecycleState(LifecycleState.RESUMED)
                     .build();
-
             mReactRootView.startReactApplication(mReactInstanceManager, getResName(), null);
             setContentView(mReactRootView);
             return;
@@ -85,7 +90,7 @@ public class All2Activity extends AppCompatActivity implements DefaultHardwareBa
                 ReactContext mContext = mReactInstanceManager.getCurrentReactContext();
                 CatalystInstance instance = mContext.getCatalystInstance();
 
-                loadForSystemOrAssets(instance,context);
+                loadForSystemOrAssets(instance, context);
 
                 mReactRootView.startReactApplication(mReactInstanceManager, getResName(), null);
                 setContentView(mReactRootView);
@@ -94,11 +99,11 @@ public class All2Activity extends AppCompatActivity implements DefaultHardwareBa
             }
         });
 
-        if(MainApplication2.getInstance().getIsLoad()){
+        if (MainApplication2.getInstance().getIsLoad()) {
             ReactContext mContext = mReactInstanceManager.getCurrentReactContext();
             CatalystInstance instance = mContext.getCatalystInstance();
 
-            loadForSystemOrAssets(instance,mContext);
+            loadForSystemOrAssets(instance, mContext);
 
             mReactRootView.startReactApplication(mReactInstanceManager, getResName(), null);
             setContentView(mReactRootView);
@@ -109,27 +114,27 @@ public class All2Activity extends AppCompatActivity implements DefaultHardwareBa
 
     }
 
-    private void loadForSystemOrAssets ( CatalystInstance instance, ReactContext context  ) {
+    private void loadForSystemOrAssets(CatalystInstance instance, ReactContext context) {
         String filePath$Name = "";
         // 是否有本地存储？
         Boolean hasCache = true;//RNToolsManager.hasCache(getApplicationContext());
         String basePhat = ""; //RNToolsManager.currentVersionByBundleName(getApplicationContext()).get("moduleType");
 
         // 加载对应的 load
-        if(hasCache){
-            filePath$Name = getFilesDir() +"/bundle/index/index.android.bundle"; //getApplicationContext().getExternalFilesDir(null).getAbsolutePath() + "/Bundle/"+ basePhat + "/" + getJSBundleAssetName();
-        }else{
+        if (hasCache) {
+            filePath$Name = getFilesDir() + "/bundle/index/index.android.bundle"; //getApplicationContext().getExternalFilesDir(null).getAbsolutePath() + "/Bundle/"+ basePhat + "/" + getJSBundleAssetName();
+        } else {
             filePath$Name = "assets://" + getJSBundleAssetName();
         }
 
 
-        if(!hasCache) {
+        if (!hasCache) {
             // loadScriptFromAssets FromAssets 不再适用
-            ((CatalystInstanceImpl)instance).loadScriptFromAssets(context.getAssets(),filePath$Name ,false);
+            ((CatalystInstanceImpl) instance).loadScriptFromAssets(context.getAssets(), filePath$Name, false);
             return;
         }
 
-        ((CatalystInstanceImpl)instance).loadSplitBundleFromFile( filePath$Name, filePath$Name);
+        ((CatalystInstanceImpl) instance).loadSplitBundleFromFile(filePath$Name, filePath$Name);
 
     }
 

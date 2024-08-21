@@ -7,7 +7,6 @@ import { Actions } from "react-native-router-flux";
 
 // const imgICON = require("./../assets/imgs/common_bg_oral_eva_large.png");
 
-
 export default class SplashScreen extends Component {
 
     goMain() {

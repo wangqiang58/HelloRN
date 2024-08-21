@@ -8,7 +8,7 @@ import Toast from "react-native-mix-toast";
 import Duration from "react-native-mix-toast";
 
 import Swiper from 'react-native-swiper';
-import { getCatList } from "../api/AppApi";
+import { getCatList } from "../../../api/AppApi";
 
 let img1url = "https://cdn2.thecatapi.com/images/Yt4_Z0aDC.jpg";
 let img2url = "https://cdn2.thecatapi.com/images/2mv.jpg";
@@ -20,10 +20,6 @@ export default class BannerScreen extends Component {
 
     state = {
         bannerData: []
-    }
-
-    constructor(props) {
-        super(props)
     }
 
     componentDidMount(): void {

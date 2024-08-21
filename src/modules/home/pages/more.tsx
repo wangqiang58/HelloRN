@@ -1,5 +1,5 @@
 import { Component, ReactNode } from "react";
-import { Dimensions, StyleSheet } from "react-native";
+import { AppRegistry, DeviceEventEmitter, Dimensions, StyleSheet } from "react-native";
 import { ScrollView } from "react-native";
 import { Alert } from "react-native";
 import { TouchableOpacity } from "react-native";
@@ -26,7 +26,7 @@ export default class MoreScreen extends Component {
 
     private deviceInfoModule = NativeModules.DeviceInfoModule;
 
-    constructor(props) {
+    constructor(props:any) {
         super(props)
         this.state = {
             appName: "",
@@ -35,16 +35,24 @@ export default class MoreScreen extends Component {
     }
 
     _toast = () => {
-        this.deviceInfoModule.showToast('退出登录');
-        storeData("is_login","0")
-        Actions.push("LoginScreen")
+        // this.deviceInfoModule.showToast('退出登录');
+        // storeData("is_login","0")
+        // Actions.push("LoginScreen")
+        // DeviceEventEmitter.emit("send_logout","我是来自退出登录...")
+        this.getDevices()
     };
+
     _alert = () => {
         this.deviceInfoModule.alert('title', '我调用了原生的Alert方法');
     };
 
     getDevices = () => {
+        this.print().then((msg)=>{
+          console.log(`msg=${msg}`)
+        })
+        
         this.deviceInfoModule.getDeviceInfos((result: { appName: string; appVersion: string; }) => {
+            // Alert.alert(`${result.appName}`)
             this.setState(
                 {
                     appName: result.appName,
@@ -53,12 +61,25 @@ export default class MoreScreen extends Component {
             )
         }, (result: any) => {
             Alert.alert('error...')
+            
         })
     }
 
+    async print(){
+      return new Promise((resolve,reject)=>{
+        setTimeout(()=>{
+            Alert.alert('xxxx1')
+            resolve(2)
+        },1000)
+      })
+    }
+
+    
+
     render(): ReactNode {
 
-        this.getDevices()
+       this.print()
+       
         return (<View style={{
             flex: 1,
             backgroundColor: '#E7F3FF',
@@ -104,7 +125,7 @@ export default class MoreScreen extends Component {
 
             </ScrollView>
 
-            <TouchableOpacity onPress={this._toast} style={[styles.toastTou, { backgroundColor: 'yellow',marginBottom:10 }]}>
+            <TouchableOpacity onPress={this._alert} style={[styles.toastTou, { backgroundColor: 'yellow',marginBottom:10 }]}>
                 <View style={{ backgroundColor: '#EEEEEE', height: 1 }}></View>
                 <Text style={styles.titleText}>退出登录</Text>
             </TouchableOpacity>

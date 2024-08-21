@@ -11,7 +11,7 @@ interface IndexScreenProps {
 }
 export default class IndexScreen extends Component<IndexScreenProps>  {
 
-    handleEvent = (message) => {
+    handleEvent = (message:string) => {
         // 处理接收到的消息
         console.warn('Received message from native:', message);
       }
@@ -21,11 +21,11 @@ export default class IndexScreen extends Component<IndexScreenProps>  {
     }
 
     componentDidMount() {
-        DeviceEventEmitter.addListener('eventName', this.handleEvent);
+        DeviceEventEmitter.addListener('send_logout', this.handleEvent);
       }
       
       componentWillUnmount() {
-        DeviceEventEmitter.removeListener('eventName', this.handleEvent);
+        DeviceEventEmitter.removeAllListeners
       }
 
     render(): ReactNode {

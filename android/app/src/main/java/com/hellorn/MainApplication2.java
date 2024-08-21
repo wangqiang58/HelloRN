@@ -35,6 +35,16 @@ public class MainApplication2 extends Application {
 
     }
 
+    public ReactInstanceManager getTempReactInstanceManager(){
+        ReactInstanceManager reactInstanceManager = ReactInstanceManager.builder()
+                .setApplication(this)
+                .addPackages(packages)
+                .setJavaScriptExecutorFactory(new HermesExecutorFactory())
+                .setJSBundleFile(getFilesDir()+"/bundle/index/index.android.bundle")
+                .setInitialLifecycleState(LifecycleState.BEFORE_CREATE).build();
+        return reactInstanceManager;
+    }
+
     public static MainApplication2 getInstance(){
         return mApp;
     }

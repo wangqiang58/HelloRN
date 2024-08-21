@@ -7,18 +7,18 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-import { getMovices, getNewsList } from '../api/AppApi';
+import { getMovices, getNewsList } from '../../../api/AppApi';
 import { Actions } from 'react-native-router-flux';
 
 
 interface ItemProps {
   title: string,
-  remarks: string,
-  pic: string,
+  content: string,
+  pic?: string,
   callback: () => void
 }
 
-const Item = (props) => {
+const Item = (props:any) => {
   return (
     <View style={styles.item}>
       <TouchableOpacity onPress={() => {
@@ -33,7 +33,7 @@ const Item = (props) => {
   );
 }
 
-export default class HomeScreen extends Component {
+export default class HomeScreen extends Component<ItemProps> {
 
   state = {
     newslist: null
@@ -49,13 +49,12 @@ export default class HomeScreen extends Component {
     })
   }
 
-
-
   constructor(props: ItemProps) {
     super(props)
   }
 
   render(): React.ReactNode {
+    
     const { newslist } = this.state
 
     return (
@@ -67,7 +66,6 @@ export default class HomeScreen extends Component {
            ctime = {info.item.ctime}
            callback={()=>{
             Actions.push('Details')
-
            }}></Item>
         }}
         keyExtractor={item => item.id}

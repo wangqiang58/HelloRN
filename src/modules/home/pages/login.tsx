@@ -13,7 +13,6 @@ export default class LoginScreen extends Component {
     private deviceInfoModule = NativeModules.DeviceInfoModule;
 
     _toast = (msg: string) => {
-        Platform.select
         this.deviceInfoModule.showToast(msg);
     };
 

@@ -1,14 +1,13 @@
 import { Component, ReactNode } from "react"
 import { FlatList, Image, Platform } from "react-native";
 import { Alert, Text, View, ActivityIndicator } from "react-native"
-import constantData from '../mock/movices.json';
+import constantData from '../../../mock/movices.json';
 import { TouchableHighlight } from "react-native-gesture-handler";
 import { NativeModules } from "react-native";
 import { StatusBar } from "react-native";
 
-
-interface IDetailProps {
-    title: string
+interface IDetailProps  {
+    readonly title: string
 }
 
 export default class DetailPage extends Component<IDetailProps> {
@@ -27,8 +26,7 @@ export default class DetailPage extends Component<IDetailProps> {
         jsonData: null
     }
     
-
-    renderItem = ({ item }) => {
+    renderItem = ({item}:any) => {
         return <TouchableHighlight onPress={()=>{
             this.deviceInfoModule.startWebActivity(item['url'])
         }}>
