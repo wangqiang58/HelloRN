@@ -10,20 +10,16 @@ buildscript {
         kotlinVersion = "1.8.0"
     }
     repositories {
-        google()
-        mavenCentral()
-         maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+        mavenLocal()
+        maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
         maven { url 'https://maven.aliyun.com/nexus/content/repositories/jcenter' }
         maven { url 'https://maven.aliyun.com/nexus/content/repositories/google' }
         maven { url 'https://maven.aliyun.com/nexus/content/repositories/gradle-plugin' }
-        mavenLocal()
+        google()
+        mavenCentral()
         maven { url "https://jitpack.io" }
         google()
         mavenCentral()
-        maven { url "http://nexus.staff.xdf.cn/repository/maven-releases/"
-            allowInsecureProtocol = true}
-        maven { url "http://nexus.staff.xdf.cn/repository/maven-snapshots/"
-            allowInsecureProtocol = true}
         maven {
             url 'https://gitlab.bonree.com/BonreeSDK_TAPM/Android/raw/master'
         }
@@ -32,7 +28,7 @@ buildscript {
         classpath("com.android.tools.build:gradle")
         classpath("com.facebook.react:react-native-gradle-plugin")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin")
-              classpath 'com.android.tools.build:gradle:8.1.0'
+        classpath 'com.android.tools.build:gradle:8.1.0'
         classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.10'
         // MoonBridge解决加固的问题插件
 //        classpath 'cn.xdf.moonBridge:plugin:1.0.2'
@@ -51,18 +47,14 @@ buildscript {
 
 allprojects {
     repositories {
+        mavenLocal()
         maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
         maven { url 'https://maven.aliyun.com/nexus/content/repositories/jcenter' }
         maven { url 'https://maven.aliyun.com/nexus/content/repositories/google' }
         maven { url 'https://maven.aliyun.com/nexus/content/repositories/gradle-plugin' }
         google()
-        mavenLocal()
         maven { url "https://jitpack.io" }
         mavenCentral()
-        maven { url "http://nexus.staff.xdf.cn/repository/maven-releases/"
-            allowInsecureProtocol = true}
-        maven { url "http://nexus.staff.xdf.cn/repository/maven-snapshots/"
-            allowInsecureProtocol = true}
         maven {
             url 'https://gitlab.bonree.com/BonreeSDK_TAPM/Android/raw/master'
         }

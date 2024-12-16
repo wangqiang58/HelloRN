@@ -84,6 +84,10 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "学习RN"
+        ndk {
+            // 支持的 ABI
+            abiFilters 'arm64-v8a'
+        }
     }
     signingConfigs {
         debug {
@@ -93,6 +97,13 @@ android {
             keyPassword 'android'
         }
     }
+
+    externalNativeBuild {
+        cmake {
+            path "src/main/cpp/CMakeLists.txt"
+        }
+    }
+
     buildTypes {
         debug {
             signingConfig signingConfigs.debug

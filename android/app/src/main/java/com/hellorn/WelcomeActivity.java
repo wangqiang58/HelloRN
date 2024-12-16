@@ -16,6 +16,8 @@ import com.facebook.react.common.LifecycleState;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.facebook.react.shell.MainReactPackage;
+import com.hellorn.core.DownloadCallback;
+import com.hellorn.core.DownloadManager;
 
 public class WelcomeActivity extends ComponentActivity implements DefaultHardwareBackBtnHandler {
     private ReactInstanceManager mReactInstanceManager;
@@ -112,6 +114,19 @@ public class WelcomeActivity extends ComponentActivity implements DefaultHardwar
 //                ReactNativeFlipper.initializeFlipper(MainApplication.instance, MainApplication.instance.getReactNativeHost().getReactInstanceManager());
                 Intent intent = new Intent(WelcomeActivity.this, All2Activity.class);
                 startActivity(intent);
+            }
+        });
+
+        findViewById(R.id.btn6).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                ReactNativeFlipper.initializeFlipper(MainApplication.instance, MainApplication.instance.getReactNativeHost().getReactInstanceManager());
+                DownloadManager.download("http://192.168.31.183:8000/index.zip", getFilesDir() + "/" + "index.zip", new DownloadCallback() {
+                    @Override
+                    public void onResult(String msg) {
+
+                    }
+                });
             }
         });
     }
