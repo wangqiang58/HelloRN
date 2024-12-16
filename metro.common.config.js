@@ -25,8 +25,25 @@ function createModuleIdFactory() {
   };
 }
 
-module.exports = {
+const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
+
+/**
+ * Metro configuration
+ * https://facebook.github.io/metro/docs/configuration
+ *
+ * @type {import('metro-config').MetroConfig}
+ */
+const config = {
   serializer: {
     createModuleIdFactory: createModuleIdFactory, // 给 bundle 一个id 避免冲突 cli 源码中这个id 是从1 开始 自增的
   },
 };
+
+module.exports = mergeConfig(getDefaultConfig(__dirname), config);
+
+
+// module.exports = {
+//   serializer: {
+//     createModuleIdFactory: createModuleIdFactory, // 给 bundle 一个id 避免冲突 cli 源码中这个id 是从1 开始 自增的
+//   },
+// };
