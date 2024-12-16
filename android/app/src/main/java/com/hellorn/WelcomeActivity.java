@@ -1,23 +1,21 @@
 package com.hellorn;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.content.MutableContextWrapper;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.activity.ComponentActivity;
 import androidx.annotation.Nullable;
 
-import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.common.LifecycleState;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
-import com.facebook.react.shell.MainReactPackage;
 import com.hellorn.core.DownloadCallback;
 import com.hellorn.core.DownloadManager;
+import com.hellorn.core.RNPageActivity;
+import com.hellorn.util.ZipUtil;
 
 public class WelcomeActivity extends ComponentActivity implements DefaultHardwareBackBtnHandler {
     private ReactInstanceManager mReactInstanceManager;
@@ -93,13 +91,6 @@ public class WelcomeActivity extends ComponentActivity implements DefaultHardwar
             }
         });
 
-        findViewById(R.id.btn5).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ReactNativePreLoader.preLoad(WelcomeActivity.this,"home");
-            }
-        });
-
         findViewById(R.id.btn3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,8 +102,9 @@ public class WelcomeActivity extends ComponentActivity implements DefaultHardwar
         findViewById(R.id.btn4).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                ReactNativeFlipper.initializeFlipper(MainApplication.instance, MainApplication.instance.getReactNativeHost().getReactInstanceManager());
-                Intent intent = new Intent(WelcomeActivity.this, All2Activity.class);
+                Intent intent = new Intent(WelcomeActivity.this, RNPageActivity.class);
+                intent.putExtra("appKey", "home");
+                intent.putExtra("hybridId", "index");
                 startActivity(intent);
             }
         });
@@ -121,12 +113,22 @@ public class WelcomeActivity extends ComponentActivity implements DefaultHardwar
             @Override
             public void onClick(View v) {
 //                ReactNativeFlipper.initializeFlipper(MainApplication.instance, MainApplication.instance.getReactNativeHost().getReactInstanceManager());
-                DownloadManager.download("http://192.168.31.183:8000/index.zip", getFilesDir() + "/" + "index.zip", new DownloadCallback() {
+                DownloadManager.download("http://192.168.68.128:8000/index.zip", getFilesDir() + "/" + "index.zip", new DownloadCallback() {
                     @Override
-                    public void onResult(String msg) {
+                    public void onResult(boolean result) {
 
                     }
                 });
+            }
+        });
+
+        findViewById(R.id.btn7).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                ReactNativeFlipper.initializeFlipper(MainApplication.instance, MainApplication.instance.getReactNativeHost().getReactInstanceManager());
+
+                ZipUtil.unzipFolder(getFilesDir() + "/" + "index.zip", getFilesDir().getAbsolutePath());
+
             }
         });
     }

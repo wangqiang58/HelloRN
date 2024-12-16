@@ -18,12 +18,6 @@
         android:layout_height="wrap_content"/>
 
     <Button
-        android:id="@+id/btn5"
-        android:text="预加载首页"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <Button
         android:id="@+id/btn3"
         android:text="点击全量"
         android:layout_width="wrap_content"
@@ -31,13 +25,20 @@
 
     <Button
         android:id="@+id/btn4"
-        android:text="点击全量2"
+        android:text="加载业务包index"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <Button
         android:id="@+id/btn6"
-        android:text="下载逻辑"
+        android:text="下载zip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="DuplicateIds" />
+
+    <Button
+        android:id="@+id/btn7"
+        android:text="解压zip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:ignore="DuplicateIds" />

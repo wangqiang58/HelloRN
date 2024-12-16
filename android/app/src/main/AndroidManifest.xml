@@ -6,7 +6,7 @@
 
 
     <application
-      android:name=".MainApplication2"
+      android:name=".MainApplication"
       android:label="@string/app_name"
         android:allowBackup="true"
       android:icon="@mipmap/ic_launcher"
@@ -27,7 +27,7 @@
         <activity android:name=".MainActivity"/>
         <activity android:name=".SearchActivity"/>
         <activity android:name=".AllActivity"/>
-        <activity android:name=".All2Activity"/>
+        <activity android:name=".core.RNPageActivity"/>
         <activity android:name=".WebActivity"/>
     </application>
 </manifest>

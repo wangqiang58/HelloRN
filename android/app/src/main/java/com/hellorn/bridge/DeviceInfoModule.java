@@ -1,4 +1,4 @@
-package com.hellorn;
+package com.hellorn.bridge;
 
 import static cn.xdf.ucan.troy.lib.utils.PackageUtils.getPackageName;
 
@@ -18,6 +18,8 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.appregistry.AppRegistry;
+import com.hellorn.HelloRegistry;
+import com.hellorn.WebActivity;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,20 +1,16 @@
 package com.hellorn;
 
-import android.util.Log;
-
 import androidx.annotation.Nullable;
 
 import com.facebook.hermes.reactexecutor.HermesExecutorFactory;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
-import com.facebook.react.ReactHost;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptExecutorFactory;
-import com.facebook.react.defaults.DefaultReactHost;
+import com.hellorn.bridge.DeviceInfoPackage;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
