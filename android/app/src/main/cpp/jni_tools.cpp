@@ -5,6 +5,7 @@
 #include <string>
 #include "DownloadWorker.h"
 #include <android/log.h>
+#include "DBWork.h"
 
 // 定义一个全局变量来保存回调接口的引用
 static jobject g_callback = nullptr;
@@ -19,13 +20,7 @@ JNIEXPORT void JNICALL
 Java_com_hellorn_core_DownloadManager_download(JNIEnv *env, jclass clazz, jstring url, jstring dest,
                                                jobject callback) {
     g_callback = env->NewGlobalRef(callback);
-    // 定义日志标签和日志内容
-    const char *tag = "Test";
-    std::string logMessage = "This is a log message from C++";
-    // 使用__android_log_write函数打印日志，日志级别为INFO
-    __android_log_write(ANDROID_LOG_INFO, tag, logMessage.c_str());
 
-    std::string data = "我成功拉";
     DownloadWorker *worker = new DownloadWorker();
     const char *urlstr = env->GetStringUTFChars(url, nullptr);
     std::string str(urlstr);
@@ -39,20 +34,30 @@ Java_com_hellorn_core_DownloadManager_download(JNIEnv *env, jclass clazz, jstrin
             url:urlstr,
             outputPath:trgetstr
     };
-    if (g_callback!= nullptr){
+    if (g_callback != nullptr) {
         env->DeleteGlobalRef(g_callback);
     }
     g_callback = env->NewGlobalRef(callback);
 
-    if (env!= nullptr && g_callback!= nullptr) {
+    if (env != nullptr && g_callback != nullptr) {
         jclass callbackClass = env->GetObjectClass(g_callback);
         jmethodID callbackMethod = env->GetMethodID(callbackClass, "onResult", "(Z)V");
-        if (callbackMethod!= nullptr) {
+        if (callbackMethod != nullptr) {
             bool result = false;
             jboolean jresult = (jboolean) result;
-            env->CallVoidMethod(g_callback, callbackMethod,jresult);
+            env->CallVoidMethod(g_callback, callbackMethod, jresult);
         }
     }
 
     worker->addTask(task);
+}
+extern "C"
+JNIEXPORT jboolean JNICALL
+Java_com_hellorn_core_DownloadManager_initDB(JNIEnv *env, jclass clazz, jstring path) {
+    //std::shared_ptr<DBWork> work = std::make_shared<DBWork>();
+    DBWork *work = new DBWork();
+    const char *pathStr = env->GetStringUTFChars(path, nullptr);
+    std::string str(pathStr);
+    bool result = work->createDatabaseAndTable(str);
+    return (jboolean) result;
 }

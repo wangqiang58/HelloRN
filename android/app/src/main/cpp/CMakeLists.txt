@@ -6,7 +6,10 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fPIC")
 message("cmake地址" + ${CMAKE_SOURCE_DIR})
 
 # 创建共享库，指定.so后缀
-add_library(downloadLib SHARED DownloadWorker.cpp DownloadWorker.h jni_tools.cpp)
+add_library(downloadLib SHARED DownloadWorker.cpp
+        DownloadWorker.h jni_tools.cpp
+        DBWork.h DBWork.cpp
+        sqlite3.h sqlite3.c)
 
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)

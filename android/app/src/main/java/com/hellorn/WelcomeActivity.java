@@ -129,7 +129,8 @@ public class WelcomeActivity extends ComponentActivity implements DefaultHardwar
 //                ReactNativeFlipper.initializeFlipper(MainApplication.instance, MainApplication.instance.getReactNativeHost().getReactInstanceManager());
 
                 ZipUtil.unzipFolder(getFilesDir() + "/" + "index.zip", getFilesDir().getAbsolutePath());
-
+                boolean result = DownloadManager.initDB(getFilesDir().getAbsolutePath() + "/rn.db");
+                Log.d("RN", "初始化DB" + result);
             }
         });
     }
