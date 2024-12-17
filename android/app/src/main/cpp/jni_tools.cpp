@@ -10,18 +10,14 @@
 // 定义一个全局变量来保存回调接口的引用
 static jobject g_callback = nullptr;
 
-// 辅助函数，用于获取CallbackInterface接口的Class对象
-static jclass getCallbackClass(JNIEnv *env) {
-    return env->FindClass("com/hellorn/core/DownloadCallback");
-}
-
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_hellorn_core_DownloadManager_download(JNIEnv *env, jclass clazz, jstring url, jstring dest,
+Java_com_hellorn_core_QPEngineManager_download(JNIEnv *env, jclass clazz, jstring url, jstring dest,
                                                jobject callback) {
     g_callback = env->NewGlobalRef(callback);
 
     DownloadWorker *worker = new DownloadWorker();
+
     const char *urlstr = env->GetStringUTFChars(url, nullptr);
     std::string str(urlstr);
 
@@ -53,7 +49,7 @@ Java_com_hellorn_core_DownloadManager_download(JNIEnv *env, jclass clazz, jstrin
 }
 extern "C"
 JNIEXPORT jboolean JNICALL
-Java_com_hellorn_core_DownloadManager_initDB(JNIEnv *env, jclass clazz, jstring path) {
+Java_com_hellorn_core_QPEngineManager_initDB(JNIEnv *env, jclass clazz, jstring path) {
     std::shared_ptr<DBWork> work = std::make_shared<DBWork>();
 //    DBWork *work = new DBWork();
     const char *pathStr = env->GetStringUTFChars(path, nullptr);
@@ -71,7 +67,7 @@ std::string jstring2string(JNIEnv *env, jstring jStr) {
 
 extern "C"
 JNIEXPORT jboolean JNICALL
-Java_com_hellorn_core_DownloadManager_insertRecord(JNIEnv *env, jclass clazz, jstring jPath,
+Java_com_hellorn_core_QPEngineManager_insertRecord(JNIEnv *env, jclass clazz, jstring jPath,
                                                    jstring jHybridId,
                                                    jint jVersion, jstring jUrl) {
     std::string hybridId = jstring2string(env, jHybridId);
@@ -84,7 +80,7 @@ Java_com_hellorn_core_DownloadManager_insertRecord(JNIEnv *env, jclass clazz, js
 }
 extern "C"
 JNIEXPORT jobject JNICALL
-Java_com_hellorn_core_DownloadManager_queryQp(JNIEnv *env, jclass clazz, jstring jPath,
+Java_com_hellorn_core_QPEngineManager_queryQp(JNIEnv *env, jclass clazz, jstring jPath,
                                               jstring hybride_id) {
     std::string hybridId = jstring2string(env, hybride_id);
 

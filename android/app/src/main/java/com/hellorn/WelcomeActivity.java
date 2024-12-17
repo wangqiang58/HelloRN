@@ -14,7 +14,7 @@ import com.facebook.react.common.LifecycleState;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.hellorn.core.DownloadCallback;
-import com.hellorn.core.DownloadManager;
+import com.hellorn.core.QPEngineManager;
 import com.hellorn.core.Qp;
 import com.hellorn.core.RNPageActivity;
 import com.hellorn.util.ZipUtil;
@@ -114,8 +114,7 @@ public class WelcomeActivity extends ComponentActivity implements DefaultHardwar
         findViewById(R.id.btn6).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                ReactNativeFlipper.initializeFlipper(MainApplication.instance, MainApplication.instance.getReactNativeHost().getReactInstanceManager());
-                DownloadManager.download("http://192.168.68.128:8000/index.zip", getFilesDir() + "/" + "index.zip", new DownloadCallback() {
+                QPEngineManager.download("http://192.168.68.128:8000/index.zip", getFilesDir() + "/" + "index.zip", new DownloadCallback() {
                     @Override
                     public void onResult(boolean result) {
                         Log.d("RN", "下载" + result);
@@ -127,10 +126,8 @@ public class WelcomeActivity extends ComponentActivity implements DefaultHardwar
         findViewById(R.id.btn7).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                ReactNativeFlipper.initializeFlipper(MainApplication.instance, MainApplication.instance.getReactNativeHost().getReactInstanceManager());
-
                 ZipUtil.unzipFolder(getFilesDir() + "/" + "index.zip", getFilesDir().getAbsolutePath());
-                boolean result = DownloadManager.initDB(getFilesDir().getAbsolutePath() + "/rn.db");
+                boolean result = QPEngineManager.initDB(getFilesDir().getAbsolutePath() + "/rn.db");
                 Log.d("RN", "初始化DB" + result);
             }
         });
@@ -138,7 +135,7 @@ public class WelcomeActivity extends ComponentActivity implements DefaultHardwar
         findViewById(R.id.btn8).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean result = DownloadManager.insertRecord(getFilesDir().getAbsolutePath() + "/rn.db", "001", 1, getFilesDir() + "/" + "index");
+                boolean result = QPEngineManager.insertRecord(getFilesDir().getAbsolutePath() + "/rn.db", "001", 1, getFilesDir() + "/" + "index");
                 Log.d("RN", "插入数据结果:" + result);
             }
         });
@@ -146,7 +143,7 @@ public class WelcomeActivity extends ComponentActivity implements DefaultHardwar
         findViewById(R.id.btn9).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Qp qp = DownloadManager.queryQp(getFilesDir().getAbsolutePath() + "/rn.db", "001");
+                Qp qp = QPEngineManager.queryQp(getFilesDir().getAbsolutePath() + "/rn.db", "001");
                 Log.d("RN", "查询数据结果:" + qp);
             }
         });

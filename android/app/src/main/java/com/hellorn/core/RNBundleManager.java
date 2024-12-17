@@ -9,7 +9,7 @@ public class RNBundleManager {
     public static String hasCache(Context context, String hybridId) {
 
         String db = context.getFilesDir().getAbsolutePath() + "/rn.db";
-        Qp qp = DownloadManager.queryQp(db, hybridId);
+        Qp qp = QPEngineManager.queryQp(db, hybridId);
         if (qp != null) {
             return FileUtil.findJSBundleFiles(qp.url, ".bundle");
         }
