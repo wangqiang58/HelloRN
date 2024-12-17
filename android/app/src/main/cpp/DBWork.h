@@ -7,12 +7,18 @@
 
 #include <string>
 #include "sqlite3.h"
+#include "Qp.h"
 
 class DBWork {
 public:
     bool createDatabaseAndTable(std::string path);
 
-    bool createTable(sqlite3* db);
+    bool createTable(sqlite3 *db);
+
+    bool insertData(std::string path, std::string hybrideId, int version, std::string url);
+
+    Qp queryQp(std::string path, std::string hybrideId);
+
 };
 
 #endif //HELLORN_DBWORK_H

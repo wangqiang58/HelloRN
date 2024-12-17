@@ -15,6 +15,7 @@ import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.hellorn.core.DownloadCallback;
 import com.hellorn.core.DownloadManager;
+import com.hellorn.core.Qp;
 import com.hellorn.core.RNPageActivity;
 import com.hellorn.util.ZipUtil;
 
@@ -105,7 +106,7 @@ public class WelcomeActivity extends ComponentActivity implements DefaultHardwar
             public void onClick(View v) {
                 Intent intent = new Intent(WelcomeActivity.this, RNPageActivity.class);
                 intent.putExtra("appKey", "home");
-                intent.putExtra("hybridId", "index");
+                intent.putExtra("hybridId", "001");
                 startActivity(intent);
             }
         });
@@ -131,6 +132,22 @@ public class WelcomeActivity extends ComponentActivity implements DefaultHardwar
                 ZipUtil.unzipFolder(getFilesDir() + "/" + "index.zip", getFilesDir().getAbsolutePath());
                 boolean result = DownloadManager.initDB(getFilesDir().getAbsolutePath() + "/rn.db");
                 Log.d("RN", "初始化DB" + result);
+            }
+        });
+
+        findViewById(R.id.btn8).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean result = DownloadManager.insertRecord(getFilesDir().getAbsolutePath() + "/rn.db", "001", 1, getFilesDir() + "/" + "index");
+                Log.d("RN", "插入数据结果:" + result);
+            }
+        });
+
+        findViewById(R.id.btn9).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Qp qp = DownloadManager.queryQp(getFilesDir().getAbsolutePath() + "/rn.db", "001");
+                Log.d("RN", "查询数据结果:" + qp);
             }
         });
     }
