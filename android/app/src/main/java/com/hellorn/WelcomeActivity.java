@@ -2,6 +2,7 @@ package com.hellorn;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.activity.ComponentActivity;
@@ -116,7 +117,7 @@ public class WelcomeActivity extends ComponentActivity implements DefaultHardwar
                 DownloadManager.download("http://192.168.68.128:8000/index.zip", getFilesDir() + "/" + "index.zip", new DownloadCallback() {
                     @Override
                     public void onResult(boolean result) {
-
+                        Log.d("RN", "下载" + result);
                     }
                 });
             }

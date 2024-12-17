@@ -5,6 +5,7 @@
 #include "DownloadWorker.h"
 #include "curl/curl.h"
 #include <android/log.h>
+#include <jni.h>
 
 
 DownloadWorker::DownloadWorker() {

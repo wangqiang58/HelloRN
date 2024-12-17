@@ -25,7 +25,6 @@ Java_com_hellorn_core_DownloadManager_download(JNIEnv *env, jclass clazz, jstrin
     // 使用__android_log_write函数打印日志，日志级别为INFO
     __android_log_write(ANDROID_LOG_INFO, tag, logMessage.c_str());
 
-    jclass callbackClass = getCallbackClass(env);
     std::string data = "我成功拉";
     DownloadWorker *worker = new DownloadWorker();
     const char *urlstr = env->GetStringUTFChars(url, nullptr);
@@ -40,5 +39,20 @@ Java_com_hellorn_core_DownloadManager_download(JNIEnv *env, jclass clazz, jstrin
             url:urlstr,
             outputPath:trgetstr
     };
+    if (g_callback!= nullptr){
+        env->DeleteGlobalRef(g_callback);
+    }
+    g_callback = env->NewGlobalRef(callback);
+
+    if (env!= nullptr && g_callback!= nullptr) {
+        jclass callbackClass = env->GetObjectClass(g_callback);
+        jmethodID callbackMethod = env->GetMethodID(callbackClass, "onResult", "(Z)V");
+        if (callbackMethod!= nullptr) {
+            bool result = false;
+            jboolean jresult = (jboolean) result;
+            env->CallVoidMethod(g_callback, callbackMethod,jresult);
+        }
+    }
+
     worker->addTask(task);
 }
