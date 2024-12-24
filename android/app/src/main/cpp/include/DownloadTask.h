@@ -10,7 +10,6 @@
 struct DownloadTask {
     std::string url;
     std::string outputPath;
-    std::shared_ptr<CallbackObj> callbackObj;
 };
 
 #endif //HELLORN_DOWNLOADTASK_H

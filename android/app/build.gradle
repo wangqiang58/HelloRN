@@ -139,6 +139,8 @@ dependencies {
     implementation project(':lib_utils')
     implementation project(':lib_permission')
 
+    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.10")
+
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

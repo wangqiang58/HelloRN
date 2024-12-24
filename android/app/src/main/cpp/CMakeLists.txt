@@ -5,14 +5,22 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fPIC")
 
 message("cmake地址" + ${CMAKE_SOURCE_DIR})
 
-# 创建共享库，指定.so后缀
-add_library(qpLib SHARED DownloadWorker.cpp
-        DownloadWorker.h jni_tools.cpp
-        DBWork.h DBWork.cpp
-        sqlite3.h sqlite3.c)
+set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/build)
 
+
+#file(GLOB SRC src/*.cpp)
+#message("src:" +${SRC})
+
+# 创建共享库，指定.so后缀
+add_library(qpLib SHARED src/DownloadWorker.cpp
+        src/jni_tools.cpp
+        src/DBWork.cpp
+        src/sqlite3.c)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+#add_library(qpLib SHARED ${SRC})
+
 target_include_directories(qpLib PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 find_library(log-lib log)
