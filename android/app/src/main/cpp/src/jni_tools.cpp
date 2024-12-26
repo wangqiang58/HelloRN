@@ -33,8 +33,6 @@ Java_com_hellorn_core_QPEngineManager_download(JNIEnv *env, jclass clazz, jstrin
     const char *trgetstr = env->GetStringUTFChars(dest, nullptr);
     std::string outputstr(trgetstr);
 
-    worker->start();
-
     DownloadTask task{
             url:urlstr,
             outputPath:trgetstr,
@@ -54,6 +52,7 @@ Java_com_hellorn_core_QPEngineManager_download(JNIEnv *env, jclass clazz, jstrin
             }
     };
     worker->addTask(task);
+    worker->start();
 }
 extern "C"
 JNIEXPORT jboolean JNICALL

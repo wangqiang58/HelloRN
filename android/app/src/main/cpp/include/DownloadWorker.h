@@ -22,22 +22,19 @@ public:
 
     ~DownloadWorker();
 
-    void addTask(const DownloadTask &task);
+    void addTask(const DownloadTask task);
 
     void start();
 
     void stop();
 
 protected:
-    std::queue<DownloadTask> m_taskQueue;
-    std::mutex m_mutex;
-    std::condition_variable m_cv;
     std::thread m_workerThread;
-    bool m_stop = false;
+    DownloadTask m_task;
 
     void run();
 
-    bool download(const DownloadTask &task);
+    bool download(const DownloadTask task);
 };
 
 #endif //HELLORN_DOWNLOADWORKER_H

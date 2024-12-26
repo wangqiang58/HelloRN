@@ -16,10 +16,8 @@ DownloadWorker::~DownloadWorker() {
     curl_global_cleanup();
 }
 
-void DownloadWorker::addTask(const DownloadTask &task) {
-    std::unique_lock<std::mutex> lock(m_mutex);
-    m_taskQueue.push(task);
-    m_cv.notify_one();
+void DownloadWorker::addTask(const DownloadTask task) {
+    m_task = task;
 }
 
 void DownloadWorker::start() {
@@ -27,31 +25,14 @@ void DownloadWorker::start() {
 }
 
 void DownloadWorker::stop() {
-    {
-        std::unique_lock<std::mutex> lock(m_mutex);
-        m_stop = true;
-        m_cv.notify_one();
-    }
     if (m_workerThread.joinable()) {
         m_workerThread.join();
     }
 }
 
 void DownloadWorker::run() {
-    while (true) {
-        DownloadTask task;
-        {
-            std::unique_lock<std::mutex> lock(m_mutex);
-            m_cv.wait(lock, [this] { return !m_taskQueue.empty() || m_stop; });
-            if (m_stop && m_taskQueue.empty()) {
-                break;
-            }
-            task = m_taskQueue.front();
-            m_taskQueue.pop();
-        }
-        bool result = download(task);
-        task.callback(result);
-    }
+    bool result = download(m_task);
+    m_task.callback(result);
 }
 
 static size_t write_data(void *ptr, size_t size, size_t nmemb, void *stream) {
@@ -60,7 +41,7 @@ static size_t write_data(void *ptr, size_t size, size_t nmemb, void *stream) {
     return size * nmemb;
 }
 
-bool DownloadWorker::download(const DownloadTask &task) {
+bool DownloadWorker::download(const DownloadTask task) {
     std::string logMessage = "开始下载任务....";
     __android_log_write(ANDROID_LOG_INFO, "Test", logMessage.c_str());
 
