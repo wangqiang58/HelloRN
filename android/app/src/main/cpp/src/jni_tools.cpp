@@ -6,6 +6,7 @@
 #include "DownloadWorker.h"
 #include <android/log.h>
 #include "DBWork.h"
+#include "zlib.h"
 
 // 定义一个全局变量来保存回调接口的引用
 static jobject g_callback = nullptr;
@@ -21,11 +22,11 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved) {
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_hellorn_core_QPEngineManager_download(JNIEnv *env, jclass clazz, jstring url, jstring dest,
+Java_com_hellorn_core_QPEngineManager_downloadNative(JNIEnv *env, jclass clazz, jstring url, jstring dest,
                                                jobject callback) {
     g_callback = env->NewGlobalRef(callback);
 
-    DownloadWorker *worker = new DownloadWorker();
+    std::shared_ptr<DownloadWorker> worker = std::make_shared<DownloadWorker>();
 
     const char *urlstr = env->GetStringUTFChars(url, nullptr);
     std::string str(urlstr);

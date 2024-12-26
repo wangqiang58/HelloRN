@@ -7,7 +7,6 @@
 #include <android/log.h>
 #include <jni.h>
 
-
 DownloadWorker::DownloadWorker() {
     curl_global_init(CURL_GLOBAL_ALL);
 }
@@ -31,7 +30,13 @@ void DownloadWorker::stop() {
 }
 
 void DownloadWorker::run() {
+    //1、下载
     bool result = download(m_task);
+    //2、解压
+
+
+    //3、插入db
+
     m_task.callback(result);
 }
 
