@@ -49,13 +49,14 @@ void DownloadWorker::run() {
             task = m_taskQueue.front();
             m_taskQueue.pop();
         }
-        download(task);
+        bool result = download(task);
+        task.callback(result);
     }
 }
 
 static size_t write_data(void *ptr, size_t size, size_t nmemb, void *stream) {
-    std::ofstream *file = (std::ofstream*)stream;
-    file->write((char*)ptr, size * nmemb);
+    std::ofstream *file = (std::ofstream *) stream;
+    file->write((char *) ptr, size * nmemb);
     return size * nmemb;
 }
 

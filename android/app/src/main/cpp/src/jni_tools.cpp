@@ -10,6 +10,15 @@
 // 定义一个全局变量来保存回调接口的引用
 static jobject g_callback = nullptr;
 
+// 全局 JavaVM 指针，通常在 JNI_OnLoad 中初始化
+JavaVM *g_jvm;
+
+// JNI_OnLoad 函数，在 JNI 库加载时调用
+JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved) {
+    g_jvm = vm;
+    return JNI_VERSION_1_6;
+}
+
 extern "C"
 JNIEXPORT void JNICALL
 Java_com_hellorn_core_QPEngineManager_download(JNIEnv *env, jclass clazz, jstring url, jstring dest,
@@ -28,23 +37,22 @@ Java_com_hellorn_core_QPEngineManager_download(JNIEnv *env, jclass clazz, jstrin
 
     DownloadTask task{
             url:urlstr,
-            outputPath:trgetstr
+            outputPath:trgetstr,
+            callback:[&env](bool result) {
+                jint attachResult = g_jvm->AttachCurrentThread(&env, nullptr);
+                if (attachResult == JNI_OK) {
+                    // 获取到 JNIEnv 指针后可以进行 JNI 操作
+                    jclass callbackClass = env->GetObjectClass(g_callback);
+                    jmethodID callbackMethod = env->GetMethodID(callbackClass, "onResult", "(Z)V");
+                    if (callbackMethod != nullptr) {
+                        jboolean jresult = (jboolean) result;
+                        env->CallVoidMethod(g_callback, callbackMethod, jresult);
+                    }
+                    // 完成操作后分离线程
+                    g_jvm->DetachCurrentThread();
+                }
+            }
     };
-    if (g_callback != nullptr) {
-        env->DeleteGlobalRef(g_callback);
-    }
-    g_callback = env->NewGlobalRef(callback);
-
-    if (env != nullptr && g_callback != nullptr) {
-        jclass callbackClass = env->GetObjectClass(g_callback);
-        jmethodID callbackMethod = env->GetMethodID(callbackClass, "onResult", "(Z)V");
-        if (callbackMethod != nullptr) {
-            bool result = false;
-            jboolean jresult = (jboolean) result;
-            env->CallVoidMethod(g_callback, callbackMethod, jresult);
-        }
-    }
-
     worker->addTask(task);
 }
 extern "C"
