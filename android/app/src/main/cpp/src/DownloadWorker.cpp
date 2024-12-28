@@ -6,6 +6,7 @@
 #include "curl/curl.h"
 #include <android/log.h>
 #include <jni.h>
+#include "ZipTask.h"
 
 DownloadWorker::DownloadWorker() {
     curl_global_init(CURL_GLOBAL_ALL);
@@ -31,13 +32,18 @@ void DownloadWorker::stop() {
 
 void DownloadWorker::run() {
     //1、下载
-    bool result = download(m_task);
-    //2、解压
+//    bool result = download(m_task);
+
+//    if (true) {
+//        //2、解压
+//        std::shared_ptr<ZipTask> task = std::make_shared<ZipTask>();
+//        task->unzip(m_task.outputPath,m_task.unzipDest);
+//        //3、插入db
+//
+//    }
 
 
-    //3、插入db
-
-    m_task.callback(result);
+    m_task.callback(true);
 }
 
 static size_t write_data(void *ptr, size_t size, size_t nmemb, void *stream) {

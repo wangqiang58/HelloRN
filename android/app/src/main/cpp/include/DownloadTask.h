@@ -13,7 +13,9 @@ typedef std::function<void(bool result)> CallbackFunction;
 struct DownloadTask {
     std::string url;
     std::string outputPath;
+    std::string unzipDest;
     CallbackFunction callback;
+
 };
 
 #endif //HELLORN_DOWNLOADTASK_H

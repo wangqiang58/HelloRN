@@ -7,6 +7,7 @@
 #include <android/log.h>
 #include "DBWork.h"
 #include "zlib.h"
+#include "ZipTask.h"
 
 // 定义一个全局变量来保存回调接口的引用
 static jobject g_callback = nullptr;
@@ -22,14 +23,19 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved) {
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_hellorn_core_QPEngineManager_downloadNative(JNIEnv *env, jclass clazz, jstring url, jstring dest,
-                                               jobject callback) {
+Java_com_hellorn_core_QPEngineManager_downloadNative(JNIEnv *env, jclass clazz, jstring url,
+                                                     jstring dest,
+                                                     jstring unzip, jobject callback) {
     g_callback = env->NewGlobalRef(callback);
 
-    std::shared_ptr<DownloadWorker> worker = std::make_shared<DownloadWorker>();
+//    std::shared_ptr<DownloadWorker> worker = std::make_shared<DownloadWorker>();
+    DownloadWorker* worker = new DownloadWorker();
 
     const char *urlstr = env->GetStringUTFChars(url, nullptr);
     std::string str(urlstr);
+
+    const char *str1 = env->GetStringUTFChars(unzip, nullptr);
+    std::string unZipstr(str1);
 
     const char *trgetstr = env->GetStringUTFChars(dest, nullptr);
     std::string outputstr(trgetstr);
@@ -37,6 +43,7 @@ Java_com_hellorn_core_QPEngineManager_downloadNative(JNIEnv *env, jclass clazz, 
     DownloadTask task{
             url:urlstr,
             outputPath:trgetstr,
+            unzipDest:unZipstr,
             callback:[&env](bool result) {
                 jint attachResult = g_jvm->AttachCurrentThread(&env, nullptr);
                 if (attachResult == JNI_OK) {

@@ -7,8 +7,8 @@ public class QPEngineManager {
     }
 
 
-    public static void download(String url, String dest, DownloadCallback callback) {
-        downloadNative(url, dest, callback);
+    public static void download(String url, String dest, String unzip, DownloadCallback callback) {
+        downloadNative(url, dest, unzip, callback);
     }
 
 
@@ -18,5 +18,5 @@ public class QPEngineManager {
 
     public native static Qp queryQp(String path, String hybrideId);
 
-    public native static void downloadNative(String url, String dest, DownloadCallback callback);
+    public native static void downloadNative(String url, String dest, String unzip, DownloadCallback callback);
 }
