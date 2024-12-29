@@ -16,6 +16,7 @@ add_library(qpLib SHARED src/DownloadWorker.cpp
         src/jni_tools.cpp
         src/DBWork.cpp
         src/ZipTask.cpp
+        src/ThreadPool.cpp
         src/sqlite3.c)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)

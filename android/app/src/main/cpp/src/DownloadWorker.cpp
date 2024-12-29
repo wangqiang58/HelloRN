@@ -16,34 +16,17 @@ DownloadWorker::~DownloadWorker() {
     curl_global_cleanup();
 }
 
-void DownloadWorker::addTask(const DownloadTask task) {
-    m_task = task;
-}
-
-void DownloadWorker::start() {
-    m_workerThread = std::thread(&DownloadWorker::run, this);
-}
-
-void DownloadWorker::stop() {
-    if (m_workerThread.joinable()) {
-        m_workerThread.join();
-    }
-}
-
-void DownloadWorker::run() {
+bool DownloadWorker::addTask(const DownloadTask downloadTask) {
     //1、下载
-//    bool result = download(m_task);
-
-//    if (true) {
-//        //2、解压
-//        std::shared_ptr<ZipTask> task = std::make_shared<ZipTask>();
-//        task->unzip(m_task.outputPath,m_task.unzipDest);
-//        //3、插入db
-//
-//    }
-
-
-    m_task.callback(true);
+    bool result = download(downloadTask);
+    if (result) {
+        //2、解压
+        std::shared_ptr<ZipTask> unzipTask = std::make_shared<ZipTask>();
+        unzipTask->unzip(downloadTask.outputPath, downloadTask.unzipDest);
+        //3、插入db
+        
+    }
+    return result;
 }
 
 static size_t write_data(void *ptr, size_t size, size_t nmemb, void *stream) {

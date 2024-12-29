@@ -98,7 +98,7 @@ public class MainActivity extends ComponentActivity implements DefaultHardwareBa
         findViewById(R.id.btn6).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                QPEngineManager.download("http://192.168.68.128:8000/index.zip", getFilesDir() + "/" + "index.zip", getFilesDir().getAbsolutePath(), new DownloadCallback() {
+                QPEngineManager.download("http://192.168.10.5:8000/index.zip", getFilesDir() + "/" + "index.zip", getFilesDir().getAbsolutePath(), new DownloadCallback() {
                     @Override
                     public void onResult(boolean result) {
                         Log.d("RN", "下载" + result);

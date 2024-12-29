@@ -1,6 +1,11 @@
 package com.hellorn.core;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
 public class QPEngineManager {
+
+    static Executor executor = Executors.newCachedThreadPool();
 
     static {
         System.loadLibrary("qpLib");
@@ -8,7 +13,9 @@ public class QPEngineManager {
 
 
     public static void download(String url, String dest, String unzip, DownloadCallback callback) {
-        downloadNative(url, dest, unzip, callback);
+//        downloadNative(url, dest, unzip, callback);
+        DownloadWorker worker = new DownloadWorker(url,dest,unzip,callback);
+        executor.execute(worker);
     }
 
 
@@ -18,5 +25,4 @@ public class QPEngineManager {
 
     public native static Qp queryQp(String path, String hybrideId);
 
-    public native static void downloadNative(String url, String dest, String unzip, DownloadCallback callback);
 }

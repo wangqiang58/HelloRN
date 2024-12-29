@@ -22,19 +22,10 @@ public:
 
     ~DownloadWorker();
 
-    void addTask(const DownloadTask task);
-
-    void start();
-
-    void stop();
-
-protected:
-    std::thread m_workerThread;
-    DownloadTask m_task;
-
-    void run();
+    bool addTask(const DownloadTask task);
 
     bool download(const DownloadTask task);
+
 };
 
 #endif //HELLORN_DOWNLOADWORKER_H
