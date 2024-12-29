@@ -81,7 +81,7 @@ public class RNPageActivity extends AppCompatActivity implements DefaultHardware
 
     private boolean loadJSBundleFromFile(CatalystInstance instance, ReactContext context) {
         // 是否有本地存储
-        String bundlePath = RNBundleManager.hasCache(getApplicationContext(), hybridId);
+        String bundlePath = QPEngineManager.hasCache(getApplicationContext(), hybridId);
         // 加载对应的 load
         if (!bundlePath.isEmpty()) {
             instance.loadSplitBundleFromFile(bundlePath, bundlePath);

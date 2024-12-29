@@ -90,7 +90,7 @@ public class MainActivity extends ComponentActivity implements DefaultHardwareBa
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, RNPageActivity.class);
                 intent.putExtra("appKey", "home");
-                intent.putExtra("hybridId", "001");
+                intent.putExtra("hybridId", "002");
                 startActivity(intent);
             }
         });
@@ -98,7 +98,7 @@ public class MainActivity extends ComponentActivity implements DefaultHardwareBa
         findViewById(R.id.btn6).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                QPEngineManager.download("http://192.168.10.5:8000/index.zip", getFilesDir() + "/" + "index.zip", getFilesDir().getAbsolutePath(), new DownloadCallback() {
+                QPEngineManager.download("http://192.168.10.5:8000/index.zip", getFilesDir() + "/" + "index.zip", getFilesDir().getAbsolutePath(), "002", 1, new DownloadCallback() {
                     @Override
                     public void onResult(boolean result) {
                         Log.d("RN", "下载" + result);
@@ -111,8 +111,8 @@ public class MainActivity extends ComponentActivity implements DefaultHardwareBa
             @Override
             public void onClick(View v) {
                 ZipUtil.unzipFolder(getFilesDir() + "/" + "index.zip", getFilesDir().getAbsolutePath());
-                boolean result = QPEngineManager.initDB(getFilesDir().getAbsolutePath() + "/rn.db");
-                Log.d("RN", "初始化DB" + result);
+               // boolean result = QPEngineManager.initDB(getFilesDir().getAbsolutePath() + "/rn.db");
+                //Log.d("RN", "初始化DB" + result);
             }
         });
 

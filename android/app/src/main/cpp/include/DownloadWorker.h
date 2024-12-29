@@ -26,6 +26,8 @@ public:
 
     bool download(const DownloadTask task);
 
+    std::string getFileNameFromURL(const std::string &url);
+
 };
 
 #endif //HELLORN_DOWNLOADWORKER_H

@@ -15,7 +15,7 @@ public:
 
     bool createTable(sqlite3 *db);
 
-    bool insertData(std::string path, std::string hybrideId, int version, std::string url);
+    bool insertData(std::string path, std::string hybrideId, int version, std::string fileName);
 
     Qp queryQp(std::string path, std::string hybrideId);
 

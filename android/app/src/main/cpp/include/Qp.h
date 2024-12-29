@@ -9,7 +9,7 @@
 struct Qp {
     std::string hybrideId;
     int version;
-    std::string url;
+    std::string fileName;
 };
 
 #endif //HELLORN_QP_H

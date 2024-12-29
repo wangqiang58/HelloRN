@@ -33,7 +33,7 @@ bool DBWork::createTable(sqlite3 *db) {
     char *errMsg = nullptr;
     std::string createTableSQL = "CREATE TABLE IF NOT EXISTS qp ("
                                  "hybrideId TEXT PRIMARY KEY, "
-                                 "url TEXT, "
+                                 "fileName TEXT, "
                                  "version TEXT);";
 
     // 执行 SQL 语句创建表
@@ -49,11 +49,11 @@ bool DBWork::createTable(sqlite3 *db) {
     return true;
 }
 
-bool DBWork::insertData(std::string path, std::string hybrideId, int version, std::string url) {
+bool DBWork::insertData(std::string path, std::string hybrideId, int version, std::string fileName) {
     sqlite3 *db;
     int rc;
     char *errMsg = 0;
-    std::string sql = "INSERT INTO qp (hybrideId, version, url) VALUES (?,?,?);";
+    std::string sql = "INSERT INTO qp (hybrideId, version, fileName) VALUES (?,?,?);";
 
     // 打开数据库
     rc = sqlite3_open(path.c_str(), &db);
@@ -75,7 +75,7 @@ bool DBWork::insertData(std::string path, std::string hybrideId, int version, st
     // 绑定参数
     sqlite3_bind_text(stmt, 1, hybrideId.c_str(), -1, SQLITE_STATIC);
     sqlite3_bind_int(stmt, 2, version);
-    sqlite3_bind_text(stmt, 3, url.c_str(), -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 3, fileName.c_str(), -1, SQLITE_STATIC);
 
     // 执行 SQL 语句
     rc = sqlite3_step(stmt);
@@ -94,7 +94,7 @@ Qp DBWork::queryQp(std::string path, std::string hybridId){
     sqlite3 *db;
     int rc;
     char *errMsg = 0;
-    std::string sql = "SELECT hybrideId, version, url FROM qp WHERE hybrideId =?;";
+    std::string sql = "SELECT hybrideId, version, fileName FROM qp WHERE hybrideId =?;";
 
     Qp qp;
 
@@ -122,8 +122,8 @@ Qp DBWork::queryQp(std::string path, std::string hybridId){
     rc = sqlite3_step(stmt);
     if (rc == SQLITE_ROW) {
         qp.version = sqlite3_column_int(stmt, 1);
-        const char *url = (const char *)sqlite3_column_text(stmt, 2);
-        qp.url = url? url : "";
+        const char *fileName = (const char *)sqlite3_column_text(stmt, 2);
+        qp.fileName = fileName? fileName : "";
         qp.hybrideId = hybridId;
     } else if (rc == SQLITE_DONE) {
         std::cerr << "No record found." << std::endl;

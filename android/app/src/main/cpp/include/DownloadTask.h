@@ -4,18 +4,17 @@
 
 #ifndef HELLORN_DOWNLOADTASK_H
 #define HELLORN_DOWNLOADTASK_H
+
 #include <string>
 #include "CallbackObj.h"
-
-// 使用 std::function 作为回调类型
-typedef std::function<void(bool result)> CallbackFunction;
 
 struct DownloadTask {
     std::string url;
     std::string outputPath;
-    std::string unzipDest;
-    CallbackFunction callback;
-
+    std::string unzipDir;
+    std::string dbName;
+    std::string hybridId;
+    int version;
 };
 
 #endif //HELLORN_DOWNLOADTASK_H

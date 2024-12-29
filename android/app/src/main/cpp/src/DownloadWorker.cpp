@@ -7,6 +7,7 @@
 #include <android/log.h>
 #include <jni.h>
 #include "ZipTask.h"
+#include "DBWork.h"
 
 DownloadWorker::DownloadWorker() {
     curl_global_init(CURL_GLOBAL_ALL);
@@ -22,12 +23,31 @@ bool DownloadWorker::addTask(const DownloadTask downloadTask) {
     if (result) {
         //2、解压
         std::shared_ptr<ZipTask> unzipTask = std::make_shared<ZipTask>();
-        unzipTask->unzip(downloadTask.outputPath, downloadTask.unzipDest);
+        unzipTask->unzip(downloadTask.outputPath, downloadTask.unzipDir);
         //3、插入db
-        
+        std::shared_ptr<DBWork> dbWork = std::make_shared<DBWork>();
+        std::string fileName = downloadTask.unzipDir + "/" + getFileNameFromURL(downloadTask.url);
+        dbWork->insertData(downloadTask.dbName, downloadTask.hybridId, downloadTask.version,
+                           fileName);
     }
     return result;
 }
+
+std::string DownloadWorker::getFileNameFromURL(const std::string &url) {
+    size_t found = url.find_last_of("/");
+    if (found == std::string::npos) {
+        return "";
+    }
+    std::string fileName = url.substr(found + 1);
+
+    // 查找文件的后缀名
+    size_t dotIndex = fileName.find_last_of(".");
+    if (dotIndex!= std::string::npos) {
+        fileName = fileName.substr(0, dotIndex);
+    }
+    return fileName;
+}
+
 
 static size_t write_data(void *ptr, size_t size, size_t nmemb, void *stream) {
     std::ofstream *file = (std::ofstream *) stream;
