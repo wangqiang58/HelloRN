@@ -11,7 +11,7 @@
 #include <thread>
 #include <mutex>
 #include <condition_variable>
-#include "DownloadTask.h"
+#include "QpInfo.h"
 #include <fstream>
 #include "curl/curl.h"
 
@@ -22,11 +22,13 @@ public:
 
     ~DownloadWorker();
 
-    bool addTask(const DownloadTask task);
+    bool addTask(const QpInfo task);
 
-    bool download(const DownloadTask task);
+    bool download(const QpInfo task,const std::string fileName);
 
     std::string getFileNameFromURL(const std::string &url);
+
+    std::string getFileNameWithSuffix(const std::string &url);
 
 };
 

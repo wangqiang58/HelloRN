@@ -28,23 +28,24 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved) {
 
 extern "C"
 JNIEXPORT jboolean JNICALL
-Java_com_hellorn_core_DownloadWorker_downloadNative(JNIEnv *env, jclass clazz, jstring url,
-                                                    jstring dest,
-                                                    jstring unzip,
+Java_com_hellorn_core_DownloadWorker_downloadNative(JNIEnv *env, jclass clazz, jstring update_url,
+                                                    jstring download_dir,
+                                                    jstring unzip_dir,
                                                     jstring dbName,
                                                     jstring hybridId,
-                                                    int version) {
+                                                    int version,
+                                                    jstring md5) {
 
     std::shared_ptr<DownloadWorker> worker = std::make_shared<DownloadWorker>();
 
-    const char *urlstr = env->GetStringUTFChars(url, nullptr);
+    const char *urlstr = env->GetStringUTFChars(update_url, nullptr);
     std::string str(urlstr);
 
-    const char *str1 = env->GetStringUTFChars(unzip, nullptr);
+    const char *str1 = env->GetStringUTFChars(unzip_dir, nullptr);
     std::string unZipstr(str1);
 
-    const char *trgetstr = env->GetStringUTFChars(dest, nullptr);
-    std::string outputstr(trgetstr);
+    const char *trgetstr = env->GetStringUTFChars(download_dir, nullptr);
+    std::string download_dir_str(trgetstr);
 
     const char *hybridIdstr = env->GetStringUTFChars(hybridId, nullptr);
     std::string hybridIdstr2(hybridIdstr);
@@ -52,13 +53,17 @@ Java_com_hellorn_core_DownloadWorker_downloadNative(JNIEnv *env, jclass clazz, j
     const char *dbNamestr = env->GetStringUTFChars(dbName, nullptr);
     std::string dbNamestr2(dbNamestr);
 
-    DownloadTask task{
-            url:urlstr,
-            outputPath:trgetstr,
+    const char *md5Str = env->GetStringUTFChars(md5, nullptr);
+    std::string md5str(md5Str);
+
+    QpInfo task{
+            update_url:urlstr,
+            outputPath:download_dir_str,
             unzipDir:unZipstr,
             dbName:dbNamestr2,
             version:version,
-            hybridId:hybridIdstr2
+            hybridId:hybridIdstr2,
+            md5:md5str
 
     };
     bool result = worker->addTask(task);

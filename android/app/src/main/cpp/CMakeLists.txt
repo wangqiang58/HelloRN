@@ -16,6 +16,7 @@ add_library(qpLib SHARED src/DownloadWorker.cpp
         src/jni_tools.cpp
         src/DBWork.cpp
         src/ZipTask.cpp
+        src/MD5.cpp
         src/sqlite3.c)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
@@ -30,5 +31,7 @@ target_link_libraries(
         qpLib
         ${CMAKE_CURRENT_SOURCE_DIR}/../jniLibs/arm64-v8a/libcurl.so
         ${CMAKE_CURRENT_SOURCE_DIR}/../jniLibs/arm64-v8a/libzip.so
+        ${CMAKE_CURRENT_SOURCE_DIR}/../jniLibs/arm64-v8a/libssl.so
+        ${CMAKE_CURRENT_SOURCE_DIR}/../jniLibs/arm64-v8a/libcrypto.so
         ${log-lib}
 )

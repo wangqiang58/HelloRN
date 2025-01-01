@@ -1,12 +1,16 @@
 package com.hellorn;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.activity.ComponentActivity;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.bridge.ReactContext;
@@ -19,11 +23,14 @@ import com.hellorn.core.Qp;
 import com.hellorn.core.RNPageActivity;
 import com.hellorn.util.ZipUtil;
 
+import android.Manifest;
+
 public class MainActivity extends ComponentActivity implements DefaultHardwareBackBtnHandler {
     private ReactInstanceManager mReactInstanceManager;
     // 发送消息给 React Native
     private LifecycleState mLifecycleState
             = LifecycleState.BEFORE_RESUME;
+    private static final int PERMISSION_REQUEST_CODE = 1;
 
 
     @Override
@@ -61,6 +68,34 @@ public class MainActivity extends ComponentActivity implements DefaultHardwareBa
         }
     }
 
+    private void requestStoragePermission() {
+        // 检查权限
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            // 请求权限
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    PERMISSION_REQUEST_CODE);
+        } else {
+            // 权限已授予
+            Toast.makeText(this, "权限已授予", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                // 权限授予成功
+                Toast.makeText(this, "权限授予成功", Toast.LENGTH_SHORT).show();
+            } else {
+                // 权限授予失败
+                Toast.makeText(this, "权限授予失败", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
 
     private void sendMessageToReactNative(String message) {
 
@@ -71,12 +106,14 @@ public class MainActivity extends ComponentActivity implements DefaultHardwareBa
                     .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                     .emit("eventName", message);
         }
+
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+        requestStoragePermission();
         findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,7 +135,7 @@ public class MainActivity extends ComponentActivity implements DefaultHardwareBa
         findViewById(R.id.btn6).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                QPEngineManager.download("http://192.168.10.5:8000/index.zip", getFilesDir() + "/" + "index.zip", getFilesDir().getAbsolutePath(), "002", 1, new DownloadCallback() {
+                QPEngineManager.download("http://192.168.10.5:8000/index.zip", "002", 1,"1efe393ba86584a188b3dc8a59675bac", new DownloadCallback() {
                     @Override
                     public void onResult(boolean result) {
                         Log.d("RN", "下载" + result);
@@ -111,7 +148,7 @@ public class MainActivity extends ComponentActivity implements DefaultHardwareBa
             @Override
             public void onClick(View v) {
                 ZipUtil.unzipFolder(getFilesDir() + "/" + "index.zip", getFilesDir().getAbsolutePath());
-               // boolean result = QPEngineManager.initDB(getFilesDir().getAbsolutePath() + "/rn.db");
+                // boolean result = QPEngineManager.initDB(getFilesDir().getAbsolutePath() + "/rn.db");
                 //Log.d("RN", "初始化DB" + result);
             }
         });
