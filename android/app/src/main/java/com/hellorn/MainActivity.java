@@ -32,6 +32,8 @@ public class MainActivity extends ComponentActivity implements DefaultHardwareBa
             = LifecycleState.BEFORE_RESUME;
     private static final int PERMISSION_REQUEST_CODE = 1;
 
+    Qp qp = new Qp("002", 1, "http://192.168.10.5:8000/index.zip", "1efe393ba86584a188b3dc8a59675bac");
+
 
     @Override
     protected void onPause() {
@@ -135,7 +137,8 @@ public class MainActivity extends ComponentActivity implements DefaultHardwareBa
         findViewById(R.id.btn6).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                QPEngineManager.download("http://192.168.10.5:8000/index.zip", "002", 1,"1efe393ba86584a188b3dc8a59675bac", new DownloadCallback() {
+
+                QPEngineManager.download(qp, new DownloadCallback() {
                     @Override
                     public void onResult(boolean result) {
                         Log.d("RN", "下载" + result);

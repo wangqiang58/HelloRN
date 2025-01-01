@@ -119,14 +119,14 @@ Java_com_hellorn_core_QPEngineManager_queryQp(JNIEnv *env, jclass clazz, jstring
         return nullptr;
     }
     jmethodID constructor = env->GetMethodID(qpClass, "<init>",
-                                             "(Ljava/lang/String;ILjava/lang/String;)V");
+                                             "(Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;)V");
     if (constructor == nullptr) {
         std::cerr << "Could not find Qp constructor." << std::endl;
         return nullptr;
     }
     jstring jUrl = env->NewStringUTF(qp.fileName.c_str());
     jstring jHybrideId = env->NewStringUTF(qp.hybrideId.c_str());
-    jobject result = env->NewObject(qpClass, constructor, jHybrideId, qp.version, jUrl);
+    jobject result = env->NewObject(qpClass, constructor, jHybrideId, qp.version, jUrl,env->NewStringUTF(""));
     env->DeleteLocalRef(jUrl);
     return result;
 }

@@ -5,12 +5,15 @@ public class Qp {
 
     public int version;
 
-    public String url;
+    public String updateUrl;
 
-    public Qp(String hybrideId, int version, String url) {
+    public String md5;
+
+    public Qp(String hybrideId, int version, String url,String md5) {
         this.hybrideId = hybrideId;
         this.version = version;
-        this.url = url;
+        this.updateUrl = url;
+        this.md5 = md5;
     }
 
     @Override
@@ -18,7 +21,7 @@ public class Qp {
         return "Qp{" +
                 "hybrideId='" + hybrideId + '\'' +
                 ", version=" + version +
-                ", url='" + url + '\'' +
+                ", url='" + updateUrl + '\'' +
                 '}';
     }
 }
