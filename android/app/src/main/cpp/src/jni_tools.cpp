@@ -73,12 +73,17 @@ Java_com_hellorn_core_DownloadWorker_downloadNative(JNIEnv *env, jclass clazz, j
 extern "C"
 JNIEXPORT jboolean JNICALL
 Java_com_hellorn_core_QPEngineManager_initDB(JNIEnv *env, jclass clazz, jstring dbPath) {
-    std::shared_ptr<DBWork> work = std::make_shared<DBWork>();
-//    DBWork *work = new DBWork();
-    const char *pathStr = env->GetStringUTFChars(dbPath, nullptr);
-    std::string str(pathStr);
-    bool result = work->createDatabaseAndTable(str);
-    return (jboolean) result;
+//    std::shared_ptr<DBWork> work = std::make_shared<DBWork>();
+//    const char *pathStr = env->GetStringUTFChars(dbPath, nullptr);
+//    std::string str(pathStr);
+//    bool result = work->createDatabaseAndTable(str);
+//    env->ReleaseStringUTFChars(dbPath, pathStr); // 释放获取的字符串指针
+//    return (jboolean) result;
+
+    int *arr = new int[1024];
+    arr[0] = 11;
+    delete [] arr;
+    delete [] arr;
 }
 
 std::string jstring2string(JNIEnv *env, jstring jStr) {
@@ -126,7 +131,8 @@ Java_com_hellorn_core_QPEngineManager_queryQp(JNIEnv *env, jclass clazz, jstring
     }
     jstring jUrl = env->NewStringUTF(qp.fileName.c_str());
     jstring jHybrideId = env->NewStringUTF(qp.hybrideId.c_str());
-    jobject result = env->NewObject(qpClass, constructor, jHybrideId, qp.version, jUrl,env->NewStringUTF(""));
+    jobject result = env->NewObject(qpClass, constructor, jHybrideId, qp.version, jUrl,
+                                    env->NewStringUTF(""));
     env->DeleteLocalRef(jUrl);
     return result;
 }
