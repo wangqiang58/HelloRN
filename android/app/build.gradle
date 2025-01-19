@@ -86,7 +86,7 @@ android {
         versionName "学习RN"
         ndk {
             // 支持的 ABI
-            abiFilters 'arm64-v8a'
+            abiFilters 'armeabi-v7a','arm64-v8a'
         }
     }
     signingConfigs {

@@ -6,7 +6,6 @@
 #define HELLORN_QPINFO_H
 
 #include <string>
-#include "CallbackObj.h"
 
 struct QpInfo {
     std::string update_url;

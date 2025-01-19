@@ -13,7 +13,7 @@
 #define LIBZIP_VERSION_MINOR 11
 #define LIBZIP_VERSION_MICRO 2
 
-/* #undef ZIP_STATIC */
+#define ZIP_STATIC
 
 
 

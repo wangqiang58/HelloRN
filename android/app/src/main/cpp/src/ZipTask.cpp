@@ -4,7 +4,7 @@
 #include "ZipTask.h"
 #include <string>
 #include <vector>
-#include <zlib/zip.h>
+#include "zlib/zip.h"
 #include <iostream>
 #include "fstream"
 #include <unistd.h>
