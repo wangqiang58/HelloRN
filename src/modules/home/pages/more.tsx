@@ -10,16 +10,6 @@ import { NavigationContext } from "@react-navigation/native";
 import { Actions } from "react-native-router-flux";
 import { StatusBar } from "react-native";
 
-
-const Item: React.FC = () => {
-
-    return (<View>
-        <View style={{ backgroundColor: '#EEEEEE', height: 1 }}></View>
-    </View>)
-}
-
-
-
 export default class MoreScreen extends Component {
 
     static contextType = NavigationContext;
@@ -34,12 +24,12 @@ export default class MoreScreen extends Component {
         }
     }
 
-    _toast = () => {
-        // this.deviceInfoModule.showToast('退出登录');
-        // storeData("is_login","0")
-        // Actions.push("LoginScreen")
-        // DeviceEventEmitter.emit("send_logout","我是来自退出登录...")
-        this.getDevices()
+    _logout = () => {
+        this.deviceInfoModule.showToast('退出登录');
+        storeData("is_login","0")
+        Actions.push("LoginScreen")
+        DeviceEventEmitter.emit("send_logout","我是来自退出登录...")
+        // this.getDevices()
     };
 
     _alert = () => {
@@ -76,10 +66,7 @@ export default class MoreScreen extends Component {
 
     
 
-    render(): ReactNode {
-
-       this.print()
-       
+    render(): ReactNode {   
         return (<View style={{
             flex: 1,
             backgroundColor: '#E7F3FF',
@@ -87,13 +74,10 @@ export default class MoreScreen extends Component {
             justifyContent: 'flex-start',
             alignItems: 'center',
         }}>
-              <StatusBar
-                    translucent={false}
-                    backgroundColor='#E7F3FF'
-                    barStyle='dark-content'/>
-                    
-            <Text style={{ fontSize: 24, color: '#333333' }}>设置</Text>
-
+            <View style={styles.header}>
+                    <Text style={styles.headerTitle}>设置</Text>
+            </View>
+                
             <ScrollView style={[styles.scrollview]}>
                 <Text style={styles.titleText}>清理缓存</Text>
                 <View style={{ backgroundColor: '#EEEEEE', height: 1 }}></View>
@@ -125,7 +109,7 @@ export default class MoreScreen extends Component {
 
             </ScrollView>
 
-            <TouchableOpacity onPress={this._alert} style={[styles.toastTou, { backgroundColor: 'yellow',marginBottom:10 }]}>
+            <TouchableOpacity onPress={this._logout} style={[styles.toastTou, { backgroundColor: 'yellow',marginBottom:10 }]}>
                 <View style={{ backgroundColor: '#EEEEEE', height: 1 }}></View>
                 <Text style={styles.titleText}>退出登录</Text>
             </TouchableOpacity>
@@ -137,6 +121,19 @@ export default class MoreScreen extends Component {
 const { width } = Dimensions.get('window')
 
 const styles = StyleSheet.create({
+    header: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderBottomWidth: 1,
+        borderBottomColor: '#EEEEEE',
+    },
+    headerTitle: {
+        fontSize: 22,
+        fontWeight: '500',
+        color: '#333333',
+        marginTop:40
+    },
+
     scrollview: {
         backgroundColor: 'white',
         margin: 15,

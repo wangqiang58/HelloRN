@@ -8,8 +8,6 @@ import { storeData } from "./data";
 
 export default class LoginScreen extends Component {
 
-
-
     private deviceInfoModule = NativeModules.DeviceInfoModule;
 
     _toast = (msg: string) => {
@@ -21,7 +19,7 @@ export default class LoginScreen extends Component {
         // 这里可以添加登录逻辑，比如验证账号和密码
         if (this.state.username === '15210225563' && this.state.password === '123') {
             storeData('is_login','1')
-            this.props.navigation.replace('AppScreen')
+            this.props.navigation.replace('AppSketchScreen')
         } else {
             this._toast('登录失败')
         }
@@ -29,11 +27,11 @@ export default class LoginScreen extends Component {
 
     private handleTextPress = () => {
         this.setState({
-            highlighted: this.state.username.length > 0 && this.state.password > 0
+            highlighted: this.state.username.length > 0 && this.state.password.length > 0
         })
     };
 
-    constructor(props) {
+    constructor(props: any) {
         super(props)
         this.state = {
             username: '',
@@ -44,7 +42,6 @@ export default class LoginScreen extends Component {
 
     render(): ReactNode {
         return (<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#CEE4FC' }}>
-
             <Text style={{ fontSize: 24, color: 'black' }}>一点一看</Text>
             <Text style={{ marginVertical: 10 ,color:'black'}}>未注册手机登录验证后可完成注册</Text>
             <TextInput

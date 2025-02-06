@@ -1,6 +1,6 @@
-import { Component, ReactNode } from "react";
+import React, { Component, ReactNode } from "react";
 import { Alert, TouchableOpacity } from "react-native";
-import { StyleSheet } from "react-native";
+import { StyleSheet,StatusBar } from "react-native";
 import { Dimensions } from "react-native";
 import { Image } from "react-native";
 import { Text, View } from "react-native";
@@ -24,6 +24,7 @@ export default class BannerScreen extends Component {
 
     componentDidMount(): void {
         getCatList().then((data) => {
+            console.log(`data=${data}`)
             this.setState({
                 bannerData: data.slice(0, 5)
             })
@@ -36,6 +37,7 @@ export default class BannerScreen extends Component {
         const {bannerData} = this.state
     
         return (
+            <View>
             <View style={[styles.container, styles.center]}>
                 <View style={[styles.swiper_parent, styles.center]}>
                  {bannerData.length ?
@@ -80,18 +82,19 @@ export default class BannerScreen extends Component {
     }
                 </View>
             </View>
+            </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-        height: 200,
+        height: 250,
         backgroundColor: '#FFFFFF'
     },
     swiper_parent: {
         width: width,
-        height: 200
+        height: 250
     },
     slide: {
         flex: 1,

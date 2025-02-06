@@ -16,7 +16,9 @@ public class MainApplication extends Application {
         SoLoader.init(this, /* native exopackage */ false);
         mApp = this;
         QPEngineManager.init(this);
-        ReactInstancePool.getInstance(this).preLoad(this);
+        if (!BuildConfig.DEBUG) {
+            ReactInstancePool.getInstance(this).preLoad(this);
+        }
     }
 
     public static MainApplication getInstance() {

@@ -47,7 +47,7 @@ public class DeviceInfoModule extends ReactContextBaseJavaModule {
 //        tDialog.setPositiveButton("确定", null);
 //        tDialog.setNegativeButton("取消", null);
 //        tDialog.show();
-        ((HelloRegistry) getReactApplicationContext().getJSModule(HelloRegistry.class)).print();
+        // ((HelloRegistry) getReactApplicationContext().getJSModule(HelloRegistry.class)).print();
     }
 
     @ReactMethod

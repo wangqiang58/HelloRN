@@ -5,28 +5,14 @@
  * @format
  */
 
-import React, { Component, useState } from 'react';
-import {
-  Image,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TextInput,
-  useColorScheme,
-  View,
-} from 'react-native';
+import React, { Component } from 'react';
 
-import ScrollableTabView, { ScrollableTabBar, DefaultTabBar } from 'react-native-scrollable-tab-view';
+import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
 import IndexScreen from './homepage';
-import MoreComponent from './more';
 import MoreScreen from './more';
 import VideoScreen from './video';
 
-
-export default class AppScreen extends Component {
-
+export default class AppSkethScreen extends Component {
 
   render(): React.ReactNode {
     
@@ -36,22 +22,17 @@ export default class AppScreen extends Component {
       tabBarBackgroundColor="#fff"
       tabBarPosition='bottom'
       initialPage={0}
-
       renderTabBar={() => <DefaultTabBar />}
     >
-      <View tabLabel='首页' style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <IndexScreen callback={() => {
-          this.props.navigation.navigate("Details", { "title": 'haha' })
-        }} />
-      </View>
-      <View tabLabel='视频' style={{ flex: 1, justifyContent: 'top',}}>
-        <VideoScreen></VideoScreen>
-      </View>
-      <View
+      <IndexScreen 
+        tabLabel='首页' 
+      />
+      <VideoScreen
+         tabLabel='视频'
+      />
+      <MoreScreen
         tabLabel='个人中心'
-        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'gray' }}>
-        <MoreScreen></MoreScreen>
-      </View>
+      />
     </ScrollableTabView>;
   }
 }

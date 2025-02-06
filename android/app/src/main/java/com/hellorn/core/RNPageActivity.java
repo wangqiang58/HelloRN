@@ -8,13 +8,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactInstanceManager;
+import com.facebook.react.ReactPackage;
 import com.facebook.react.ReactRootView;
 import com.facebook.react.bridge.CatalystInstance;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.common.LifecycleState;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.facebook.soloader.SoLoader;
+import com.hellorn.BuildConfig;
 import com.hellorn.MainApplication;
+import com.hellorn.bridge.DeviceInfoPackage;
+
+import java.util.List;
 
 public class RNPageActivity extends AppCompatActivity implements DefaultHardwareBackBtnHandler {
 
@@ -34,10 +39,10 @@ public class RNPageActivity extends AppCompatActivity implements DefaultHardware
         SoLoader.init(this, false);
         parseParams();
 
-//        if (BuildConfig.DEBUG) {
-//            loadJSBundleFromMetro();
-//            return;
-//        }
+        if (BuildConfig.DEBUG) {
+            loadJSBundleFromMetro();
+            return;
+        }
         mReactInstanceManager = ReactInstancePool.getInstance(MainApplication.getInstance()).getReactInstance(MainApplication.getInstance());
         mReactInstanceManager.onHostResume(this, this);
         mReactRootView = new ReactRootView(this);
@@ -66,11 +71,14 @@ public class RNPageActivity extends AppCompatActivity implements DefaultHardware
 
     private void loadJSBundleFromMetro() {
         mReactRootView = new ReactRootView(this);
+        List<ReactPackage> packages = new PackageList(this.getApplication()).getPackages();
+        packages.add(new DeviceInfoPackage());
+
         mReactInstanceManager = ReactInstanceManager.builder()
                 .setApplication(getApplication())
                 .setCurrentActivity(this)
                 .setJSMainModulePath("index")
-                .addPackages(new PackageList(getApplication()).getPackages())
+                .addPackages(packages)
                 .setUseDeveloperSupport(true)
                 .setInitialLifecycleState(LifecycleState.RESUMED)
                 .build();
@@ -91,7 +99,7 @@ public class RNPageActivity extends AppCompatActivity implements DefaultHardware
     }
 
     private void loadJsBundleFromNetwork(CatalystInstance instance) {
-       instance.runJSBundle();
+        instance.runJSBundle();
     }
 
     @Override
