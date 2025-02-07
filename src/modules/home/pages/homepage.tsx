@@ -3,8 +3,10 @@ import { View } from "react-native";
 import BannerScreen from "./banner";
 import NewsScreen from "./newscomponent";
 import { DeviceEventEmitter } from 'react-native';
-
-export default class HomeScreen extends Component  {
+interface HomeScreenProps {
+    navigation: any;
+  }
+export default class HomeScreen extends Component<HomeScreenProps>  {
 
     handleEvent = (message:string) => {
         // 处理接收到的消息
@@ -25,10 +27,12 @@ export default class HomeScreen extends Component  {
                 flexDirection: "column",
                 flex: 1
             }}>
-                <BannerScreen>
-                </BannerScreen>
-                <NewsScreen title="首页2" content="首页内容">
-                </NewsScreen>
+                <BannerScreen />
+                <NewsScreen 
+                    title="首页" 
+                    content="首页内容" 
+                    navigation={this.props.navigation} 
+                />
             </View>
 
         )

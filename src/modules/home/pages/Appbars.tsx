@@ -8,11 +8,10 @@
 import React, { Component } from 'react';
 
 import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
-import IndexScreen from './homepage';
+import HomeScreen from './homepage';
 import MoreScreen from './more';
 import VideoScreen from './video';
-
-export default class AppSkethScreen extends Component {
+export default class AppSkechScreen extends Component {
 
   render(): React.ReactNode {
     
@@ -24,8 +23,9 @@ export default class AppSkethScreen extends Component {
       initialPage={0}
       renderTabBar={() => <DefaultTabBar />}
     >
-      <IndexScreen 
-        tabLabel='首页' 
+      <HomeScreen 
+        tabLabel='首页'
+        navigation={this.props.navigation}
       />
       <VideoScreen
          tabLabel='视频'

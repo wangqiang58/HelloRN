@@ -7,9 +7,10 @@ import DetailPage from './src/modules/home/pages/detai';
 import AppSketchScreen from './src/modules/home/pages/Appbars';
 import LoginScreen from './src/modules/home/pages/login';
 import SplashScreen from './src/modules/home/pages/splash';
-import { Router,Scene } from 'react-native-router-flux';
 import MessageQueue from 'react-native/Libraries/BatchedBridge/MessageQueue';
 import BatchedBridge from 'react-native/Libraries/BatchedBridge/BatchedBridge';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 const spyFunction = (msg)=>{
   console.log(msg)
@@ -17,48 +18,33 @@ const spyFunction = (msg)=>{
 
 // MessageQueue.spy(spyFunction);
 
-const App = () => {
-        return (
-          <View style={{ flex: 1 }}>
-          <StatusBar
-            translucent={true}
-            backgroundColor="transparent"
-            barStyle="light-content"
-          />
-          <Router>
-            <Scene key="root" navigationBarStyle={styles.navBar} titleStyle={styles.navTitle}>
-              <Scene 
-                key="AppSketchScreen" 
-                component={AppSketchScreen} 
-                hideNavBar={true}
-                initial
-              />
-              <Scene 
-                key="LoginScreen" 
-                component={LoginScreen} 
-                hideNavBar={true}
-              />
-              <Scene 
-                key="SplashScreen" 
-                component={SplashScreen} 
-                hideNavBar={true}
-              />
-              <Scene 
-                key="Details" 
-                component={DetailPage} 
-                hideBackImage={true} 
-                hideNavBar={true}
-                navigationBarStyle={styles.navBarWithTitle}
-                titleStyle={styles.navTitle}
-                backButtonTextStyle={styles.backButtonText}
-                backButtonTintColor="#fff"
-              />
-            </Scene>
-          </Router>
-        </View>
-        )
-    
-};
+const Stack = createStackNavigator();
+
+const App = ()=> {
+  return (
+    <View style={{ flex: 1 }}>
+      <StatusBar
+        translucent={true}
+        backgroundColor="transparent"
+        barStyle="dark-content"
+      />
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+            contentStyle: { backgroundColor: 'white' },
+          }}
+          initialRouteName="AppSketchScreen"
+        >
+          <Stack.Screen name="AppSketchScreen" component={AppSketchScreen} />
+          <Stack.Screen name="LoginScreen" component={LoginScreen} />
+          <Stack.Screen name="SplashScreen" component={SplashScreen} />
+          <Stack.Screen name="DetailPage" component={DetailPage} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </View>
+  );
+}
 
 const styles = {
   navBar: {
@@ -90,6 +76,4 @@ BatchedBridge.registerCallableModule('HelloRegistry',{
    }
 })
 
-AppRegistry.registerComponent("home", () => {
-    return App
-});
+AppRegistry.registerComponent("home", () => App);

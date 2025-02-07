@@ -6576,7 +6576,7 @@ react-native-safe-area-view@^0.14.9:
   dependencies:
     hoist-non-react-statics "^2.3.1"
 
-react-native-screens@^3.31.1, "react-native-screens@>= 3.0.0", "react-native-screens@>=1.0.0 || >= 2.0.0-alpha.0 || >= 2.0.0-beta.0 || >= 2.0.0":
+react-native-screens@^3.29.0, "react-native-screens@>= 3.0.0", "react-native-screens@>=1.0.0 || >= 2.0.0-alpha.0 || >= 2.0.0-beta.0 || >= 2.0.0":
   version "3.31.1"
   resolved "https://registry.npmmirror.com/react-native-screens/-/react-native-screens-3.31.1.tgz"
   integrity sha512-8fRW362pfZ9y4rS8KY5P3DFScrmwo/vu1RrRMMx0PNHbeC9TLq0Kw1ubD83591yz64gLNHFLTVkTJmWeWCXKtQ==

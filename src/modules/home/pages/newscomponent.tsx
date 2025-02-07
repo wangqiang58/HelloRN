@@ -22,15 +22,15 @@ interface NewsItem {
 interface ItemProps {
   title: string,
   content: string,
-  pic?: string
+  pic?: string,
+  navigation: any // For quick fix. For better typing use proper NavigationScreenProp type
 }
 
 const Item = (props:any) => {
   return (
     <View style={styles.item}>
-      <TouchableOpacity onPress={() => {
-          props.callback()
-      }
+      <TouchableOpacity onPress={
+          props.callback
       }>
         <Text style={[{ color: 'black', fontSize: 16 }]}>{props.title}</Text>
         <Text style={[{ color: 'black', fontSize: 12 }]}>{props.description}</Text>
@@ -89,7 +89,7 @@ export default class NewsScreen extends Component<ItemProps> {
            description={info.item.description}
            ctime = {info.item.ctime}
            callback={()=>{
-            Actions.push('Details')
+            this.props.navigation.navigate('DetailPage')
            }}></Item>
         }}
         keyExtractor={(item,index) => `${item.id}-${index}`}
