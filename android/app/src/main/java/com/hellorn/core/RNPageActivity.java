@@ -6,6 +6,7 @@ import android.view.KeyEvent;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.facebook.hermes.reactexecutor.HermesExecutorFactory;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactPackage;
@@ -13,11 +14,12 @@ import com.facebook.react.ReactRootView;
 import com.facebook.react.bridge.CatalystInstance;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.common.LifecycleState;
+import com.facebook.react.jscexecutor.JSCExecutorFactory;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.facebook.soloader.SoLoader;
 import com.hellorn.BuildConfig;
 import com.hellorn.MainApplication;
-import com.hellorn.bridge.DeviceInfoPackage;
+import com.hellorn.bridge.StudyPackage;
 
 import java.util.List;
 
@@ -36,9 +38,7 @@ public class RNPageActivity extends AppCompatActivity implements DefaultHardware
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SoLoader.init(this, false);
         parseParams();
-
         if (BuildConfig.DEBUG) {
             loadJSBundleFromMetro();
             return;
@@ -72,7 +72,7 @@ public class RNPageActivity extends AppCompatActivity implements DefaultHardware
     private void loadJSBundleFromMetro() {
         mReactRootView = new ReactRootView(this);
         List<ReactPackage> packages = new PackageList(this.getApplication()).getPackages();
-        packages.add(new DeviceInfoPackage());
+        packages.add(new StudyPackage());
 
         mReactInstanceManager = ReactInstanceManager.builder()
                 .setApplication(getApplication())
@@ -80,6 +80,7 @@ public class RNPageActivity extends AppCompatActivity implements DefaultHardware
                 .setJSMainModulePath("index")
                 .addPackages(packages)
                 .setUseDeveloperSupport(true)
+                .setJavaScriptExecutorFactory(new HermesExecutorFactory())
                 .setInitialLifecycleState(LifecycleState.RESUMED)
                 .build();
 
@@ -128,23 +129,31 @@ public class RNPageActivity extends AppCompatActivity implements DefaultHardware
     @Override
     protected void onPause() {
         super.onPause();
+        if (mReactInstanceManager != null) {
+            mReactInstanceManager.onHostPause(this);
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        if (mReactInstanceManager != null) {
+            mReactInstanceManager.onHostResume(this, this);
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         if (mReactInstanceManager != null) {
             mReactInstanceManager.onHostDestroy(this);
+            mReactInstanceManager.destroy();
         }
         if (mReactRootView != null) {
             mReactRootView.unmountReactApplication();
         }
+        mReactRootView = null;
+        mReactInstanceManager = null;
     }
 
 }

@@ -11,12 +11,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class DeviceInfoPackage implements ReactPackage {
+public class StudyPackage implements ReactPackage {
     @NonNull
     @Override
     public List<NativeModule> createNativeModules(@NonNull ReactApplicationContext reactApplicationContext) {
         List<NativeModule> modules = new ArrayList<>();
         modules.add(new DeviceInfoModule(reactApplicationContext));
+        modules.add(new NavigatorModule(reactApplicationContext));
         return modules;
     }
 

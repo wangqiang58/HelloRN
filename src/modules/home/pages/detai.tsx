@@ -8,7 +8,8 @@ import { StatusBar } from "react-native";
 import { Actions } from "react-native-router-flux";
 
 interface IDetailProps  {
-    readonly title: string
+    readonly title: string;
+    navigation: any; // Quick fix for navigation prop
 }
 
 export default class DetailPage extends Component<IDetailProps> {
@@ -54,7 +55,7 @@ export default class DetailPage extends Component<IDetailProps> {
                 <View style={styles.header}>
                     <TouchableOpacity 
                         style={styles.backButton}
-                        onPress={() => Actions.pop()}
+                        onPress={() => this.props.navigation.goBack()}
                     >
                         <Text style={styles.backText}>{'‹'}</Text>
                     </TouchableOpacity>

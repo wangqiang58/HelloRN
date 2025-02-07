@@ -8,7 +8,7 @@ import com.facebook.react.PackageList;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.common.LifecycleState;
-import com.hellorn.bridge.DeviceInfoPackage;
+import com.hellorn.bridge.StudyPackage;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -22,7 +22,7 @@ public class ReactInstancePool {
 
     private ReactInstancePool(Application application) {
         packages = new PackageList(application).getPackages();
-        packages.add(new DeviceInfoPackage());
+        packages.add(new StudyPackage());
     }
 
     public static ReactInstancePool getInstance(Application application) {

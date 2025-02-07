@@ -36,7 +36,9 @@ const App = ()=> {
           }}
           initialRouteName="AppSketchScreen"
         >
-          <Stack.Screen name="AppSketchScreen" component={AppSketchScreen} />
+          <Stack.Screen name="AppSketchScreen"
+           component={AppSketchScreen} 
+           />
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="SplashScreen" component={SplashScreen} />
           <Stack.Screen name="DetailPage" component={DetailPage} />

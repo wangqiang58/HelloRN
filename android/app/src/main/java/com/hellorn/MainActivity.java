@@ -25,50 +25,13 @@ import com.hellorn.util.ZipUtil;
 
 import android.Manifest;
 
-public class MainActivity extends ComponentActivity implements DefaultHardwareBackBtnHandler {
-    private ReactInstanceManager mReactInstanceManager;
-    // 发送消息给 React Native
-    private LifecycleState mLifecycleState
-            = LifecycleState.BEFORE_RESUME;
+public class MainActivity extends ComponentActivity {
+
+
     private static final int PERMISSION_REQUEST_CODE = 1;
 
     Qp qp = new Qp("002", 1, "http://192.168.10.5:8000/index.zip", "1efe393ba86584a188b3dc8a59675bac");
 
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mLifecycleState = LifecycleState.BEFORE_RESUME;
-
-        if (mReactInstanceManager != null) {
-            mReactInstanceManager.onHostPause();
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        mLifecycleState = LifecycleState.RESUMED;
-
-        if (mReactInstanceManager != null) {
-            mReactInstanceManager.onHostResume(this, this);
-        }
-    }
-
-    @Override
-    public void invokeDefaultOnBackPressed() {
-        super.onBackPressed();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        if (mReactInstanceManager != null) {
-            mReactInstanceManager.destroy();
-        }
-    }
 
     private void requestStoragePermission() {
         // 检查权限
@@ -96,19 +59,6 @@ public class MainActivity extends ComponentActivity implements DefaultHardwareBa
                 Toast.makeText(this, "权限授予失败", Toast.LENGTH_SHORT).show();
             }
         }
-    }
-
-
-    private void sendMessageToReactNative(String message) {
-
-        // 初始化 ReactInstanceManager
-        ReactContext reactContext = mReactInstanceManager.getCurrentReactContext();
-        if (reactContext != null) {
-            reactContext
-                    .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                    .emit("eventName", message);
-        }
-
     }
 
     @Override
