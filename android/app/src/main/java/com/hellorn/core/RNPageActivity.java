@@ -30,16 +30,22 @@ public class RNPageActivity extends AppCompatActivity implements DefaultHardware
     private String appKey;
     private String hybridId;
 
+    public static int LAUNCH_MODE_METRO = 0;
+    public static int LAUNCH_MODE_OFFLINE = 1;
+
+    private int launchMode;
+
     public void parseParams() {
         appKey = getIntent().getStringExtra("appKey");
         hybridId = getIntent().getStringExtra("hybridId");
+        launchMode = getIntent().getIntExtra("launchMode",LAUNCH_MODE_METRO);
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         parseParams();
-        if (BuildConfig.DEBUG) {
+        if (launchMode == LAUNCH_MODE_METRO) {
             loadJSBundleFromMetro();
             return;
         }

@@ -92,7 +92,8 @@ extern "C"
 JNIEXPORT jboolean JNICALL
 Java_com_hellorn_core_QPEngineManager_insertRecord(JNIEnv *env, jclass clazz, jstring jPath,
                                                    jstring jHybridId,
-                                                   jint jVersion, jstring jUrl) {
+                                                   jint
+                                                   jVersion, jstring jUrl) {
     std::string hybridId = jstring2string(env, jHybridId);
     int version = jVersion;
     std::string path = jstring2string(env, jPath);

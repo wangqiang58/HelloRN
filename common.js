@@ -3,3 +3,7 @@
 
 import 'react';
 import 'react-native';
+import 'react-native-swiper'
+import 'react-native-pager-view'
+import 'react-navigation'
+import '@react-native-async-storage/async-storage'

@@ -1,5 +1,8 @@
 package com.hellorn;
 
+import static com.hellorn.core.RNPageActivity.LAUNCH_MODE_METRO;
+import static com.hellorn.core.RNPageActivity.LAUNCH_MODE_OFFLINE;
+
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -66,60 +69,43 @@ public class MainActivity extends ComponentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
         requestStoragePermission();
-        findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
-                startActivity(intent);
-            }
+        findViewById(R.id.btn3).setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, RNPageActivity.class);
+            intent.putExtra("appKey", "home");
+            intent.putExtra("hybridId", "002");
+            intent.putExtra("launchMode",LAUNCH_MODE_OFFLINE);
+            startActivity(intent);
         });
 
-        findViewById(R.id.btn4).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, RNPageActivity.class);
-                intent.putExtra("appKey", "home");
-                intent.putExtra("hybridId", "002");
-                startActivity(intent);
-            }
+        findViewById(R.id.btn4).setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, RNPageActivity.class);
+            intent.putExtra("appKey", "home");
+            intent.putExtra("hybridId", "002");
+            intent.putExtra("launchMode",LAUNCH_MODE_METRO);
+            startActivity(intent);
         });
 
-        findViewById(R.id.btn6).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn6).setOnClickListener(v -> QPEngineManager.download(qp, new DownloadCallback() {
             @Override
-            public void onClick(View v) {
-
-                QPEngineManager.download(qp, new DownloadCallback() {
-                    @Override
-                    public void onResult(boolean result) {
-                        Log.d("RN", "下载" + result);
-                    }
-                });
+            public void onResult(boolean result) {
+                Log.d("RN", "下载" + result);
             }
+        }));
+
+        findViewById(R.id.btn7).setOnClickListener(v -> {
+            ZipUtil.unzipFolder(getFilesDir() + "/" + "index.zip", getFilesDir().getAbsolutePath());
+            // boolean result = QPEngineManager.initDB(getFilesDir().getAbsolutePath() + "/rn.db");
+            //Log.d("RN", "初始化DB" + result);
         });
 
-        findViewById(R.id.btn7).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ZipUtil.unzipFolder(getFilesDir() + "/" + "index.zip", getFilesDir().getAbsolutePath());
-                // boolean result = QPEngineManager.initDB(getFilesDir().getAbsolutePath() + "/rn.db");
-                //Log.d("RN", "初始化DB" + result);
-            }
+        findViewById(R.id.btn8).setOnClickListener(v -> {
+            boolean result = QPEngineManager.insertRecord(getFilesDir().getAbsolutePath() + "/rn.db", "001", 1, getFilesDir() + "/" + "index");
+            Log.d("RN", "插入数据结果:" + result);
         });
 
-        findViewById(R.id.btn8).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean result = QPEngineManager.insertRecord(getFilesDir().getAbsolutePath() + "/rn.db", "001", 1, getFilesDir() + "/" + "index");
-                Log.d("RN", "插入数据结果:" + result);
-            }
-        });
-
-        findViewById(R.id.btn9).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Qp qp = QPEngineManager.queryQp(getFilesDir().getAbsolutePath() + "/rn.db", "001");
-                Log.d("RN", "查询数据结果:" + qp);
-            }
+        findViewById(R.id.btn9).setOnClickListener(v -> {
+            Qp qp = QPEngineManager.queryQp(getFilesDir().getAbsolutePath() + "/rn.db", "001");
+            Log.d("RN", "查询数据结果:" + qp);
         });
     }
 }

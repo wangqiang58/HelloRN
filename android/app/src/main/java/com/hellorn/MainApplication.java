@@ -17,8 +17,9 @@ public class MainApplication extends Application {
         mApp = this;
         QPEngineManager.init(this);
         if (!BuildConfig.DEBUG) {
-            ReactInstancePool.getInstance(this).preLoad(this);
+            //ReactInstancePool.getInstance(this).preLoad(this);
         }
+        ReactInstancePool.getInstance(this).preLoad(this);
     }
 
     public static MainApplication getInstance() {
