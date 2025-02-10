@@ -41,14 +41,14 @@ function createModuleIdFactory() {
       fileToIdMap.set(path, id);
     }
 
-    // console.log('path='+path+',id='+id)
+    console.log('path='+path+',id='+id)
 
-    // !hasBuildInfo("./config/bundleIndexInfo.json", path) &&
-    // writeBuildInfo(
-    //   "./config/bundleIndexInfo.json",
-    //   path,
-    //   id
-    // );
+    !hasBuildInfo("./config/bundleIndexInfo.json", path) &&
+    writeBuildInfo(
+      "./config/bundleIndexInfo.json",
+      path,
+      id
+    );
 
     return id;
   };
