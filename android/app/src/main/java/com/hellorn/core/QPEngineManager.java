@@ -43,7 +43,8 @@ public class QPEngineManager {
 
     public static void download(Qp qp, DownloadCallback callback) {
         DownloadWorker worker = new DownloadWorker(qp, callback);
-        executor.execute(worker);
+        //executor.execute(worker);
+        worker.startTask();
     }
 
     public static String hasCache(Context context, String hybridId) {

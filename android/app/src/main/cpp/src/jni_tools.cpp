@@ -27,48 +27,68 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved) {
 }
 
 extern "C"
-JNIEXPORT jboolean JNICALL
+JNIEXPORT void JNICALL
 Java_com_hellorn_core_DownloadWorker_downloadNative(JNIEnv *env, jclass clazz, jstring update_url,
                                                     jstring download_dir,
                                                     jstring unzip_dir,
                                                     jstring dbName,
                                                     jstring hybridId,
                                                     int version,
-                                                    jstring md5) {
+                                                    jstring md5,
+                                                    jobject callback) {
+    // 保存全局引用，用于在子线程中回调
+    jobject globalCallback = env->NewGlobalRef(callback);
+    
+    // 获取回调接口类和方法
 
     std::shared_ptr<DownloadWorker> worker = std::make_shared<DownloadWorker>();
 
-    const char *urlstr = env->GetStringUTFChars(update_url, nullptr);
-    std::string str(urlstr);
+    // 创建字符串副本，避免线程访问冲突
+    std::string str(env->GetStringUTFChars(update_url, nullptr));
+    std::string unZipstr(env->GetStringUTFChars(unzip_dir, nullptr));
+    std::string download_dir_str(env->GetStringUTFChars(download_dir, nullptr));
+    std::string hybridIdstr2(env->GetStringUTFChars(hybridId, nullptr));
+    std::string dbNamestr2(env->GetStringUTFChars(dbName, nullptr));
+    std::string md5str(env->GetStringUTFChars(md5, nullptr));
+   // int jversion = version;
 
-    const char *str1 = env->GetStringUTFChars(unzip_dir, nullptr);
-    std::string unZipstr(str1);
+    // 在新线程中执行下载任务
+    std::thread([worker, str, unZipstr, download_dir_str, hybridIdstr2, 
+                 dbNamestr2, version, md5str, globalCallback]() {
+        JNIEnv *env;
+        // 附加到 Java 线程
+        g_jvm->AttachCurrentThread(&env, nullptr);
 
-    const char *trgetstr = env->GetStringUTFChars(download_dir, nullptr);
-    std::string download_dir_str(trgetstr);
+//        QpInfo task{
+//            update_url: str.c_str(),
+//            outputPath: download_dir_str,
+//            unzipDir: unZipstr,
+//            dbName: dbNamestr2,
+//            version: 1,
+//            hybridId: hybridIdstr2,
+//            md5: md5str
+//        };
 
-    const char *hybridIdstr = env->GetStringUTFChars(hybridId, nullptr);
-    std::string hybridIdstr2(hybridIdstr);
+        // 执行任务
+        bool result = false; //worker->addTask(task);
 
-    const char *dbNamestr = env->GetStringUTFChars(dbName, nullptr);
-    std::string dbNamestr2(dbNamestr);
+        // 获取回调接口类和方法
+        jclass callbackClass = env->GetObjectClass(globalCallback);
+        jmethodID onResultMethod = env->GetMethodID(callbackClass, "onResult", "(Z)V");
 
-    const char *md5Str = env->GetStringUTFChars(md5, nullptr);
-    std::string md5str(md5Str);
+        // 调用回调方法
+        env->CallVoidMethod(globalCallback, onResultMethod, (jboolean)result);
 
-    QpInfo task{
-            update_url:urlstr,
-            outputPath:download_dir_str,
-            unzipDir:unZipstr,
-            dbName:dbNamestr2,
-            version:version,
-            hybridId:hybridIdstr2,
-            md5:md5str
+        // 释放全局引用
+        env->DeleteGlobalRef(globalCallback);
 
-    };
-    bool result = worker->addTask(task);
-    return (jboolean) result;
+        // 从 Java 线程分离
+        g_jvm->DetachCurrentThread();
+    }).detach();
+
+    return;
 }
+
 
 extern "C"
 JNIEXPORT jboolean JNICALL
