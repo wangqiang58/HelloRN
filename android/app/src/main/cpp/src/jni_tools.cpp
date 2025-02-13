@@ -76,7 +76,7 @@ Java_com_hellorn_core_DownloadWorker_downloadNative(JNIEnv *env, jclass clazz, j
     jmethodID callbackMethodId = env->GetMethodID(callbackClass, "onResult", "(Z)V");
 
      // 调用 addTask 并传入 lambda 回调
-    worker->addTask(task, [globalCallback, callbackMethodId](bool result) {
+    worker->addTask(task, [worker,globalCallback, callbackMethodId](bool result) {
         JNIEnv *threadEnv;
         if (g_jvm->AttachCurrentThread(&threadEnv, nullptr) != JNI_OK) {
             LOGD("Failed to attach thread");

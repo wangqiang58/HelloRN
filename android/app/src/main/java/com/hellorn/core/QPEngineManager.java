@@ -2,6 +2,8 @@ package com.hellorn.core;
 
 import android.content.Context;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 
 import com.hellorn.util.FileUtil;
 
@@ -19,6 +21,8 @@ public class QPEngineManager {
     static String CACHE_DOWNLOAD_DIR;
 
     static String UN_ZIP_DIR;
+
+    static Handler MAIN_HANDLE = new Handler();
 
     static {
         System.loadLibrary("qpLib");
@@ -42,8 +46,7 @@ public class QPEngineManager {
 
 
     public static void download(Qp qp, DownloadCallback callback) {
-        DownloadWorker worker = new DownloadWorker(qp, callback);
-        //executor.execute(worker);
+        DownloadWorker worker = new DownloadWorker(qp, result -> MAIN_HANDLE.post(() -> callback.onResult(result)));
         worker.startTask();
     }
 

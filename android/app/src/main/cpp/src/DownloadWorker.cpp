@@ -18,6 +18,8 @@ DownloadWorker::~DownloadWorker() {
     curl_global_cleanup();
 }
 
+std::mutex mutex_;
+
 void DownloadWorker::addTask(const QpInfo& downloadTask,std::function<void(bool)> callback) {
     // 创建线程执行下载任务
     std::thread worker([this, downloadTask, tempFile = downloadTask.outputPath + "/" + getFileNameWithSuffix(downloadTask.update_url), callback]() {

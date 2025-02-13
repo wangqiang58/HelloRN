@@ -6,6 +6,7 @@ import static com.hellorn.core.RNPageActivity.LAUNCH_MODE_OFFLINE;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -33,7 +34,8 @@ public class MainActivity extends ComponentActivity {
 
     private static final int PERMISSION_REQUEST_CODE = 1;
 
-    Qp qp = new Qp("002", 1, "http://192.168.10.5:8000/index.zip", "c6c9e5e95a4436a8a480ddb30bc5fd26");
+    Qp qp = new Qp("002", 1, "http://172.20.10.13:8000/index.zip", "c6c9e5e95a4436a8a480ddb30bc5fd26");
+    //Qp qp = new Qp("002", 1, "http://192.168.10.5:8000/index.zip", "c6c9e5e95a4436a8a480ddb30bc5fd26");
 
 
     private void requestStoragePermission() {
@@ -88,7 +90,7 @@ public class MainActivity extends ComponentActivity {
         findViewById(R.id.btn6).setOnClickListener(v -> QPEngineManager.download(qp, new DownloadCallback() {
             @Override
             public void onResult(boolean result) {
-                Log.d("RN", "下载" + result);
+                Log.d("RN", "下载" + ((Looper.getMainLooper()==Looper.myLooper()) ? "主线层":"子线层"));
             }
         }));
 
