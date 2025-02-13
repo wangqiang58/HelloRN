@@ -36,59 +36,73 @@ Java_com_hellorn_core_DownloadWorker_downloadNative(JNIEnv *env, jclass clazz, j
                                                     int version,
                                                     jstring md5,
                                                     jobject callback) {
-    // 保存全局引用，用于在子线程中回调
-    jobject globalCallback = env->NewGlobalRef(callback);
-    
-    // 获取回调接口类和方法
 
     std::shared_ptr<DownloadWorker> worker = std::make_shared<DownloadWorker>();
 
-    // 创建字符串副本，避免线程访问冲突
-    std::string str(env->GetStringUTFChars(update_url, nullptr));
-    std::string unZipstr(env->GetStringUTFChars(unzip_dir, nullptr));
-    std::string download_dir_str(env->GetStringUTFChars(download_dir, nullptr));
-    std::string hybridIdstr2(env->GetStringUTFChars(hybridId, nullptr));
-    std::string dbNamestr2(env->GetStringUTFChars(dbName, nullptr));
-    std::string md5str(env->GetStringUTFChars(md5, nullptr));
-   // int jversion = version;
+    const char *urlstr = env->GetStringUTFChars(update_url, nullptr);
+    std::string str(urlstr);
 
-    // 在新线程中执行下载任务
-    std::thread([worker, str, unZipstr, download_dir_str, hybridIdstr2, 
-                 dbNamestr2, version, md5str, globalCallback]() {
-        JNIEnv *env;
-        // 附加到 Java 线程
-        g_jvm->AttachCurrentThread(&env, nullptr);
 
-//        QpInfo task{
-//            update_url: str.c_str(),
-//            outputPath: download_dir_str,
-//            unzipDir: unZipstr,
-//            dbName: dbNamestr2,
-//            version: 1,
-//            hybridId: hybridIdstr2,
-//            md5: md5str
-//        };
+    const char *str1 = env->GetStringUTFChars(unzip_dir, nullptr);
+    std::string unZipstr(str1);
 
-        // 执行任务
-        bool result = false; //worker->addTask(task);
+    const char *trgetstr = env->GetStringUTFChars(download_dir, nullptr);
+    std::string download_dir_str(trgetstr);
 
-        // 获取回调接口类和方法
-        jclass callbackClass = env->GetObjectClass(globalCallback);
-        jmethodID onResultMethod = env->GetMethodID(callbackClass, "onResult", "(Z)V");
+    const char *hybridIdstr = env->GetStringUTFChars(hybridId, nullptr);
+    std::string hybridIdstr2(hybridIdstr);
 
-        // 调用回调方法
-        env->CallVoidMethod(globalCallback, onResultMethod, (jboolean)result);
+    const char *dbNamestr = env->GetStringUTFChars(dbName, nullptr);
+    std::string dbNamestr2(dbNamestr);
 
-        // 释放全局引用
-        env->DeleteGlobalRef(globalCallback);
+    const char *md5Str = env->GetStringUTFChars(md5, nullptr);
+    std::string md5str(md5Str);
 
-        // 从 Java 线程分离
+    QpInfo task{
+            update_url:urlstr,
+            outputPath:download_dir_str,
+            unzipDir:unZipstr,
+            dbName:dbNamestr2,
+            version:1,
+            hybridId:hybridIdstr2,
+            md5:md5str
+    };
+
+    //调用 work->addTask 方法
+    // 创建全局引用以在其他线程中使用
+    jobject globalCallback = env->NewGlobalRef(callback);
+    // 获取回调方法
+    jclass callbackClass = env->GetObjectClass(callback);
+    jmethodID callbackMethodId = env->GetMethodID(callbackClass, "onResult", "(Z)V");
+
+     // 调用 addTask 并传入 lambda 回调
+    worker->addTask(task, [globalCallback, callbackMethodId](bool result) {
+        JNIEnv *threadEnv;
+        if (g_jvm->AttachCurrentThread(&threadEnv, nullptr) != JNI_OK) {
+            LOGD("Failed to attach thread");
+            return;
+        }
+
+        // 调用 Java 回调方法
+        threadEnv->CallVoidMethod(globalCallback, callbackMethodId, result);
+
+        // 清理全局引用
+        threadEnv->DeleteGlobalRef(globalCallback);
+
+        // 分离线程
         g_jvm->DetachCurrentThread();
-    }).detach();
+    });
 
+
+    // 释放字符串资源
+    env->ReleaseStringUTFChars(update_url, urlstr);
+    env->ReleaseStringUTFChars(unzip_dir, str1);
+    env->ReleaseStringUTFChars(download_dir, trgetstr);
+    env->ReleaseStringUTFChars(hybridId, hybridIdstr);
+    env->ReleaseStringUTFChars(dbName, dbNamestr);
+    env->ReleaseStringUTFChars(md5, md5Str);
     return;
 }
-
 
 extern "C"
 JNIEXPORT jboolean JNICALL
@@ -147,7 +161,8 @@ Java_com_hellorn_core_QPEngineManager_queryQp(JNIEnv *env, jclass clazz, jstring
     }
     jstring jUrl = env->NewStringUTF(qp.fileName.c_str());
     jstring jHybrideId = env->NewStringUTF(qp.hybrideId.c_str());
-    jobject result = env->NewObject(qpClass, constructor, jHybrideId, qp.version, jUrl,env->NewStringUTF(""));
+    jobject result = env->NewObject(qpClass, constructor, jHybrideId, qp.version, jUrl,
+                                    env->NewStringUTF(""));
     env->DeleteLocalRef(jUrl);
     return result;
 }

@@ -17,6 +17,22 @@
 #define LOGE printf
 
 bool ZipTask::unzip(std::string zipFilePath, std::string outputDirectory) {
+
+    // 获取不带路径和后缀的文件名
+    size_t lastSlash = zipFilePath.find_last_of('/');
+    size_t lastDot = zipFilePath.find_last_of('.');
+    std::string fileName = zipFilePath.substr(
+        lastSlash + 1,  // 从斜杠后一个字符开始
+        lastDot - lastSlash - 1  // 长度为点的位置减去斜杠的位置再减1
+    );
+
+     std::string currentPath = outputDirectory +"/"+ fileName;
+     if (access(currentPath.c_str(), F_OK) != -1) {
+       //删除非空目录
+       std::string rmCmd = "rm -rf " + currentPath;
+       system(rmCmd.c_str());
+     }
+
     int err = 0;
     zip *z = zip_open(zipFilePath.c_str(), 0, &err);
     if (z == nullptr) {

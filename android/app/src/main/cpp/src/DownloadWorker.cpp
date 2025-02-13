@@ -18,70 +18,85 @@ DownloadWorker::~DownloadWorker() {
     curl_global_cleanup();
 }
 
-bool DownloadWorker::addTask(const QpInfo downloadTask) {
-    //1、下载
-    std::string tempFile = downloadTask.outputPath + "/" + getFileNameWithSuffix(downloadTask.update_url);
-    bool result = download(downloadTask, tempFile);
-    if (!result) {
-        return false;
-    }
+void DownloadWorker::addTask(const QpInfo& downloadTask,std::function<void(bool)> callback) {
+    // 创建线程执行下载任务
+    std::thread worker([this, downloadTask, tempFile = downloadTask.outputPath + "/" + getFileNameWithSuffix(downloadTask.update_url), callback]() {
+        bool success = false;
+        
+        //1、下载
+        if (!download(downloadTask, tempFile)) {
+            callback(false);
+            return;
+        }
 
-    // 校验MD5
-    MD5 md5;
-    md5.reset();
-    std::ifstream stream(tempFile);
-    if (!stream) {
-        __android_log_write(ANDROID_LOG_ERROR, "Test", "无法打开临时文件进行MD5校验");
-        return false;
-    }
+        // 校验MD5
+        MD5 md5;
+        md5.reset();
+        std::ifstream stream(tempFile);
+        if (!stream) {
+            __android_log_write(ANDROID_LOG_ERROR, "Test", "无法打开临时文件进行MD5校验");
+            callback(false);
+            return;
+        }
 
-    md5.update(stream);
-    std::string calculatedMd5 = md5.toString();
-    __android_log_write(ANDROID_LOG_INFO, "Test", ("md5:" + calculatedMd5).c_str());
-    
-    if (calculatedMd5 != downloadTask.md5) {
-        __android_log_write(ANDROID_LOG_ERROR, "Test", "MD5校验失败");
-        stream.close();
-        std::remove(tempFile.c_str());
-        return false;
-    }
-
-    //2、解压
-    try {
-        auto unzipTask = std::make_shared<ZipTask>();
-        if (!unzipTask->unzip(tempFile, downloadTask.unzipDir)) {
-            __android_log_write(ANDROID_LOG_ERROR, "Test", "解压失败");
+        md5.update(stream);
+        std::string calculatedMd5 = md5.toString();
+        __android_log_write(ANDROID_LOG_INFO, "Test", ("md5:" + calculatedMd5).c_str());
+        
+        if (calculatedMd5 != downloadTask.md5) {
+            __android_log_write(ANDROID_LOG_ERROR, "Test", "MD5校验失败");
             stream.close();
             std::remove(tempFile.c_str());
-            return false;
+            callback(false);
+            return;
         }
-    } catch (const std::exception& e) {
-        __android_log_write(ANDROID_LOG_ERROR, "Test", ("解压异常: " + std::string(e.what())).c_str());
-        stream.close();
-        std::remove(tempFile.c_str());
-        return false;
-    }
 
-    //3、插入db
-    try {
-        auto dbWork = std::make_shared<DBWork>();
-        std::string fileName = downloadTask.unzipDir + "/" + getFileNameFromURL(downloadTask.update_url);
-        if (!dbWork->insertData(downloadTask.dbName, downloadTask.hybridId, downloadTask.version, fileName)) {
-            __android_log_write(ANDROID_LOG_ERROR, "Test", "数据库插入失败");
+        //2、解压
+        try {
+            auto unzipTask = std::make_shared<ZipTask>();
+            if (!unzipTask->unzip(tempFile, downloadTask.unzipDir)) {
+                __android_log_write(ANDROID_LOG_ERROR, "Test", tempFile.c_str());
+
+                __android_log_write(ANDROID_LOG_ERROR, "Test", "解压失败");
+                stream.close();
+                std::remove(tempFile.c_str());
+                callback(false);
+                return;
+            }
+        } catch (const std::exception& e) {
+            __android_log_write(ANDROID_LOG_ERROR, "Test", ("解压异常: " + std::string(e.what())).c_str());
             stream.close();
             std::remove(tempFile.c_str());
-            return false;
+            callback(false);
+            return;
         }
-    } catch (const std::exception& e) {
-        __android_log_write(ANDROID_LOG_ERROR, "Test", ("数据库操作异常: " + std::string(e.what())).c_str());
+
+        //3、插入db
+        try {
+            auto dbWork = std::make_shared<DBWork>();
+            std::string fileName = downloadTask.unzipDir + "/" + getFileNameFromURL(downloadTask.update_url);
+            if (!dbWork->insertData(downloadTask.dbName, downloadTask.hybridId, downloadTask.version, fileName)) {
+                __android_log_write(ANDROID_LOG_ERROR, "Test", "数据库插入失败");
+                stream.close();
+                std::remove(tempFile.c_str());
+                callback(false);
+                return;
+            }
+        } catch (const std::exception& e) {
+            __android_log_write(ANDROID_LOG_ERROR, "Test", ("数据库操作异常: " + std::string(e.what())).c_str());
+            stream.close();
+            std::remove(tempFile.c_str());
+            callback(false);
+            return;
+        }
+
         stream.close();
         std::remove(tempFile.c_str());
-        return false;
-    }
+        callback(true);
+    });
 
-    stream.close();
-    std::remove(tempFile.c_str());
-    return true;
+    // 设置线程为分离状态
+    worker.detach();
 }
 
 

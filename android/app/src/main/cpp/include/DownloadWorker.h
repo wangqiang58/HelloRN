@@ -22,7 +22,7 @@ public:
 
     ~DownloadWorker();
 
-    bool addTask(const QpInfo task);
+    void addTask(const QpInfo& task,std::function<void(bool)> callback);
 
     bool download(const QpInfo task,const std::string fileName);
 
