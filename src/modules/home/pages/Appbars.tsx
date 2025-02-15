@@ -5,7 +5,7 @@
  * @format
  */
 
-import React, { Component } from 'react';
+import React, { Component,createRef,RefObject } from 'react';
 
 import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
 import HomeScreen from './homepage';
@@ -14,20 +14,24 @@ import VideoScreen from './video';
 import {NativeModules, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 export default class AppSkechScreen extends Component {
   
+  private tabView: RefObject<ScrollableTabView> = createRef();
+
   handleGoBack = () => {
     NativeModules.Navigator && NativeModules.Navigator.goBack();
   }
 
-  render(): React.ReactNode {
+  render(): React.ReactNodaae {
     return(
       <View style={{ flex: 1 }}>
       <ScrollableTabView
+      ref = {this.tabView}
       tabBarActiveTextColor="#28C35A"
       tabBarInactiveTextColor="#000000"
       tabBarBackgroundColor="#fff"
       tabBarPosition='bottom'
       initialPage={0}
       renderTabBar={() => <DefaultTabBar />}
+      viewPagerRef={null}
     >
       <HomeScreen 
         tabLabel='首页'
@@ -47,7 +51,7 @@ export default class AppSkechScreen extends Component {
           activeOpacity={0.7}
         >
           <Text style={styles.backButtonText}>{'‹'}</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> 
     </View>
     );
   }

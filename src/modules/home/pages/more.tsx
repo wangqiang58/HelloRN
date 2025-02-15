@@ -7,8 +7,6 @@ import { Text, View } from "react-native";
 import { NativeModules } from 'react-native';
 import { storeData } from "./data";
 import { NavigationContext } from "@react-navigation/native";
-import { Actions } from "react-native-router-flux";
-import { StatusBar } from "react-native";
 
 export default class MoreScreen extends Component {
 
@@ -27,7 +25,7 @@ export default class MoreScreen extends Component {
     _logout = () => {
         this.deviceInfoModule.showToast('退出登录');
         storeData("is_login","0")
-        Actions.push("LoginScreen")
+        //Actions.push("LoginScreen")
         DeviceEventEmitter.emit("send_logout","我是来自退出登录...")
         // this.getDevices()
     };

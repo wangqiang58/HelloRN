@@ -13,11 +13,11 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.ReactRootView;
 import com.facebook.react.bridge.CatalystInstance;
 import com.facebook.react.bridge.ReactContext;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.common.LifecycleState;
-import com.facebook.react.jscexecutor.JSCExecutorFactory;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
-import com.facebook.soloader.SoLoader;
-import com.hellorn.BuildConfig;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.hellorn.MainApplication;
 import com.hellorn.bridge.StudyPackage;
 
@@ -38,7 +38,7 @@ public class RNPageActivity extends AppCompatActivity implements DefaultHardware
     public void parseParams() {
         appKey = getIntent().getStringExtra("appKey");
         hybridId = getIntent().getStringExtra("hybridId");
-        launchMode = getIntent().getIntExtra("launchMode",LAUNCH_MODE_METRO);
+        launchMode = getIntent().getIntExtra("launchMode", LAUNCH_MODE_METRO);
     }
 
     @Override
@@ -60,19 +60,29 @@ public class RNPageActivity extends AppCompatActivity implements DefaultHardware
                 ReactContext mContext = mReactInstanceManager.getCurrentReactContext();
                 CatalystInstance instance = mContext.getCatalystInstance();
                 boolean isFromLocal = loadJSBundleFromFile(instance, context);
-                if (isFromLocal) {
-                    mReactRootView.startReactApplication(mReactInstanceManager, appKey, null);
-                    setContentView(mReactRootView);
-                } else {
+                if (!isFromLocal) {
                     loadJsBundleFromNetwork(instance);
-                    mReactRootView.startReactApplication(mReactInstanceManager, appKey, null);
-                    setContentView(mReactRootView);
                 }
+                mReactRootView.startReactApplication(mReactInstanceManager, appKey, null);
+                setContentView(mReactRootView);
+                emitLifeCycleEvent("onCreate");
                 mReactInstanceManager.removeReactInstanceEventListener(this);
             }
         });
         mReactInstanceManager.createReactContextInBackground();
+    }
 
+    private void emitLifeCycleEvent(String type) {
+        mReactInstanceManager.getCurrentReactContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                .emit("LifeCycleEvent", createWritableMap(type));
+    }
+
+    public WritableMap createWritableMap(String type) {
+        WritableMap map = new WritableNativeMap();
+        map.putString("type", type);
+        map.putString("hybridId", hybridId);
+
+        return map;
     }
 
     private void loadJSBundleFromMetro() {
@@ -89,6 +99,14 @@ public class RNPageActivity extends AppCompatActivity implements DefaultHardware
                 .setJavaScriptExecutorFactory(new HermesExecutorFactory())
                 .setInitialLifecycleState(LifecycleState.RESUMED)
                 .build();
+        mReactInstanceManager.addReactInstanceEventListener(new ReactInstanceManager.ReactInstanceEventListener() {
+            @Override
+            public void onReactContextInitialized(ReactContext context) {
+                emitLifeCycleEvent("onCreate");
+                mReactInstanceManager.removeReactInstanceEventListener(this);
+            }
+        });
+
 
         mReactRootView.startReactApplication(mReactInstanceManager, appKey, null);
         setContentView(mReactRootView);
@@ -137,6 +155,7 @@ public class RNPageActivity extends AppCompatActivity implements DefaultHardware
         super.onPause();
         if (mReactInstanceManager != null) {
             mReactInstanceManager.onHostPause(this);
+            emitLifeCycleEvent("onPause");
         }
     }
 
@@ -145,6 +164,8 @@ public class RNPageActivity extends AppCompatActivity implements DefaultHardware
         super.onResume();
         if (mReactInstanceManager != null) {
             mReactInstanceManager.onHostResume(this, this);
+            if (mReactInstanceManager.getCurrentReactContext() != null)
+                emitLifeCycleEvent("onResume");
         }
     }
 
@@ -152,6 +173,7 @@ public class RNPageActivity extends AppCompatActivity implements DefaultHardware
     protected void onDestroy() {
         super.onDestroy();
         if (mReactInstanceManager != null) {
+            emitLifeCycleEvent("onDestroy");
             mReactInstanceManager.onHostDestroy(this);
             mReactInstanceManager.destroy();
         }

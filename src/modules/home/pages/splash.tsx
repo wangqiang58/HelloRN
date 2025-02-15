@@ -3,7 +3,6 @@ import { Alert, Dimensions } from "react-native";
 import { StyleSheet } from "react-native";
 import { Image, View } from "react-native";
 import { getData } from "./data";
-import { Actions } from "react-native-router-flux";
 
 // const imgICON = require("./../assets/imgs/common_bg_oral_eva_large.png");
 
@@ -18,9 +17,9 @@ export default class SplashScreen extends Component {
     async dispatchPage() {
         var result = getData('is_login')
         if (await result!='1') {
-            Actions.replace('LoginScreen')
+           // Actions.replace('LoginScreen')
         } else {
-            Actions.replace('AppScreen')
+           // Actions.replace('AppScreen')
         }
     }
 

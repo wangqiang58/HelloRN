@@ -1,8 +1,9 @@
 /**
  * @format
  */
+import { Alert, AppRegistry, DeviceEventEmitter, StatusBar, Platform, View } from 'react-native';
+import React, { useEffect } from 'react';
 
-import { Alert, AppRegistry, UIManager, StatusBar, Platform, View } from 'react-native';
 import DetailPage from './src/modules/home/pages/detai';
 import AppSketchScreen from './src/modules/home/pages/Appbars';
 import LoginScreen from './src/modules/home/pages/login';
@@ -21,6 +22,32 @@ const spyFunction = (msg)=>{
 const Stack = createStackNavigator();
 
 const App = ()=> {
+  useEffect(() => {    // 使用 DeviceEventEmitter 监听事件
+    const eventListener = DeviceEventEmitter.addListener('LifeCycleEvent', (event) => {
+      console.log('Received lifecycle event:', event);
+      switch(event.type) {
+        case 'onCreate':
+          console.log('Activity onCreate');
+          break;
+        case 'onResume':
+          console.log('Activity onResume');
+          break;
+        case 'onPause':
+          console.log('Activity onPause');
+          break;
+          case 'onDestroy':
+            console.log('Activity onDestroy');
+          break;
+        default:
+          console.log('Unknown event type:', event.type);
+      }
+    });
+    return () => {
+      eventListener.remove();
+    };
+  }, []);
+     
+
   return (
     <View style={{ flex: 1 }}>
       <StatusBar
